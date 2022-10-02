@@ -7,4 +7,5 @@ export const Wrapper = styled.div`
   justify-content: space-between;
   flex-wrap: wrap;
   margin-top: 16px;
+  column-gap: 4px;
 `;
