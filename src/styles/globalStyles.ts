@@ -6,7 +6,9 @@ export default createGlobalStyle`
     padding: 0;
     box-sizing: border-box;
     font-family: 'Inter', sans-serif;
+    font-size: 16px;
   }
+
 
   button {
     cursor: pointer;

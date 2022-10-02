@@ -19,4 +19,14 @@ export const Content = styled.div`
   height: 100%;
   max-width: ${breakpoints.lg};
   background-color: ${({ theme }) => theme.background.secondary};
+  padding: 8px;
+`;
+
+export const TopContent = styled.div`
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+  max-width: ${breakpoints.lg};
+  background-color: ${({ theme }) => theme.background.secondary};
 `;

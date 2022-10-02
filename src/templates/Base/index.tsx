@@ -9,11 +9,11 @@ export type BaseTemplateProps = {
 
 const Base = ({ children }: BaseTemplateProps) => (
   <S.Wrapper>
-    <S.Content>
+    <S.TopContent>
       <Header />
       <Image src={Logo} alt="Naruto logo" />
-      {children}
-    </S.Content>
+    </S.TopContent>
+    <S.Content>{children}</S.Content>
   </S.Wrapper>
 );
 
