@@ -7,7 +7,8 @@ export const Wrapper = styled.div`
   align-items: center;
   background-color: ${({ theme }) => theme.background.primary};
   width: 100%;
-  height: 100vh;
+  height: auto;
+  min-height: 100vh;
   padding: 0 16px;
 `;
 
@@ -16,6 +17,7 @@ export const Content = styled.div`
   flex-direction: column;
   align-items: center;
   width: 100%;
+  min-height: 100vh;
   height: 100%;
   max-width: ${breakpoints.lg};
   background-color: ${({ theme }) => theme.background.secondary};

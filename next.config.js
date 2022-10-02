@@ -9,6 +9,10 @@ const nextConfig = {
 
     return config;
   },
+  images: {
+    domains: ['static.wikia.nocookie.net'],
+    formats: ['image/avif', 'image/webp'],
+  },
   reactStrictMode: true,
   swcMinify: true,
   compiler: {
