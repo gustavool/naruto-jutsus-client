@@ -4,6 +4,10 @@ export const Wrapper = styled.div`
   display: flex;
   position: relative;
   align-items: center;
+
+  & + & {
+    margin-top: 4px;
+  }
 `;
 
 export const Input = styled.input`
@@ -11,8 +15,8 @@ export const Input = styled.input`
   align-items: center;
   justify-content: center;
   appearance: none;
-  width: 18px;
-  height: 18px;
+  min-width: 18px;
+  min-height: 18px;
   border: 2px solid ${({ theme }) => theme.background.primary};
   border-radius: 4px;
   position: relative;
@@ -44,4 +48,5 @@ export const Input = styled.input`
 
 export const Label = styled.label`
   margin-left: 4px;
+  font-size: 14px;
 `;

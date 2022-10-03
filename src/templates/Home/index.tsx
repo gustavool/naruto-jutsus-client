@@ -1,31 +1,39 @@
 import BoxJutsus from '@/components/BoxJutsus';
 import Checkbox from '@/components/Checkbox';
+import FilterSidebar from '@/components/FilterSidebar';
 import JutsuCard from '@/components/JutsuCard';
 import SearchBar from '@/components/SearchBar';
 import Base from '../Base';
+import * as S from './styles';
 
 export type HomeTemplateProps = {
   children: React.ReactNode;
 };
 
-const Home = () => (
-  <Base>
-    <SearchBar />
-    <Checkbox label="teste" labelFor="teste" />
-    <BoxJutsus>
-      <JutsuCard />
-      <JutsuCard />
-      <JutsuCard />
-      <JutsuCard />
-      <JutsuCard />
-      <JutsuCard />
-      <JutsuCard />
-      <JutsuCard />
-      <JutsuCard />
-      <JutsuCard />
-      <JutsuCard />
-    </BoxJutsus>
-  </Base>
-);
+const Home = () => {
+  return (
+    <Base>
+      <S.Container>
+        <FilterSidebar />
+        <S.Content>
+          <SearchBar />
+          <BoxJutsus>
+            <JutsuCard />
+            <JutsuCard />
+            <JutsuCard />
+            <JutsuCard />
+            <JutsuCard />
+            <JutsuCard />
+            <JutsuCard />
+            <JutsuCard />
+            <JutsuCard />
+            <JutsuCard />
+            <JutsuCard />
+          </BoxJutsus>
+        </S.Content>
+      </S.Container>
+    </Base>
+  );
+};
 
 export default Home;
