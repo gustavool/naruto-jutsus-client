@@ -7,4 +7,5 @@ export const defaultTheme = {
     primary: `#585858`,
   },
   white: `#FFFFFF`,
+  black: `#585858`,
 };
