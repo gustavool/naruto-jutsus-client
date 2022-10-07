@@ -4,7 +4,7 @@ export const Wrapper = styled.div`
   display: flex;
   position: relative;
   align-items: center;
-
+  width: 100%;
   & + & {
     margin-top: 4px;
   }
@@ -21,6 +21,7 @@ export const Input = styled.input`
   border-radius: 4px;
   position: relative;
   outline: none;
+  cursor: pointer;
 
   &:before {
     content: '';
@@ -47,6 +48,8 @@ export const Input = styled.input`
 `;
 
 export const Label = styled.label`
-  margin-left: 4px;
+  width: 100%;
+  padding-left: 4px;
   font-size: 14px;
+  cursor: pointer;
 `;

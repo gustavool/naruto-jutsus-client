@@ -10,13 +10,25 @@ export const Content = styled.div``;
 
 export const BoxFilter = styled.div`
   & + & {
-    margin-top: 8px;
+    margin-top: 16px;
   }
+  position: relative;
+
+  &::after {
+    position: absolute;
+    content: '';
+    left: 25%;
+    bottom: -4px;
+    width: 64px;
+    border-bottom: 1px solid ${({ theme }) => theme.background.primary};
+  }
+  /* padding-bottom: 8px;
+  border-bottom: 1px solid ${({ theme }) => theme.background.primary}; */
 `;
 
 export const Filter = styled.div`
   height: auto;
-  max-height: 300px;
+  max-height: 280px;
   overflow: auto;
 
   ::-webkit-scrollbar-thumb {

@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import * as S from './styles';
 
 export type CheckboxProps = {
@@ -6,11 +7,26 @@ export type CheckboxProps = {
   value?: string | ReadonlyArray<string> | number;
 };
 
-const Checkbox = ({ label, labelFor, value }: CheckboxProps) => (
-  <S.Wrapper>
-    <S.Input id={labelFor} type="checkbox" value={value} />
-    <S.Label htmlFor={labelFor}>{label}</S.Label>
-  </S.Wrapper>
-);
+const Checkbox = ({ label, labelFor, value }: CheckboxProps) => {
+  const [checked, setChecked] = useState(false);
+
+  const onChange = () => {
+    console.log(`chamou`);
+    setChecked((prev) => !prev);
+  };
+
+  return (
+    <S.Wrapper>
+      <S.Input
+        id={labelFor}
+        type="checkbox"
+        value={value}
+        checked={checked}
+        onClick={onChange}
+      />
+      <S.Label htmlFor={labelFor}>{label}</S.Label>
+    </S.Wrapper>
+  );
+};
 
 export default Checkbox;

@@ -1,8 +1,8 @@
 import BoxJutsus from '@/components/BoxJutsus';
-import Checkbox from '@/components/Checkbox';
 import FilterSidebar from '@/components/FilterSidebar';
 import JutsuCard from '@/components/JutsuCard';
 import SearchBar from '@/components/SearchBar';
+
 import Base from '../Base';
 import * as S from './styles';
 

@@ -1,24 +1,24 @@
 import styled from 'styled-components';
 
 export const Wrapper = styled.div`
-  width: 100%;
   display: flex;
   align-items: center;
-  background-color: ${({ theme }) => theme.white};
-  border-radius: 4px;
-
-  svg {
-    width: 28px;
-    height: 28px;
-    margin: 0 8px;
-  }
 `;
 
 export const Bar = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 100%;
   height: 48px;
   border-radius: 4px;
   background-color: ${({ theme }) => theme.white};
+
+  svg {
+    width: 28px;
+    height: 28px;
+    margin-right: 8px;
+  }
 
   input {
     width: 100%;
@@ -27,4 +27,13 @@ export const Bar = styled.div`
     padding: 8px;
     border-radius: 4px;
   }
+`;
+
+export const BoxFilter = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  cursor: pointer;
 `;
