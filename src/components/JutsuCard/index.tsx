@@ -1,18 +1,32 @@
 import Image from 'next/image';
+import EmptyImage from '@/public/assets/empty-image.jpeg';
 import * as S from './styles';
 
-const JutsuCard = () => (
-  <S.Wrapper>
-    <S.BoxImage>
-      <Image
-        src="https://static.wikia.nocookie.net/naruto/images/2/2b/Susanoo.png/revision/latest/scale-to-width-down/350?cb=20150207103348"
-        alt="jutsu name"
-        width="256"
-        height="176"
-      />
-    </S.BoxImage>
-    <S.Name>Susanoo</S.Name>
-  </S.Wrapper>
-);
+export type JutsuCardProps = {
+  img: {
+    src: string;
+    alt: string;
+  }[];
+  name: string;
+};
+
+const JutsuCard = ({ img, name }: JutsuCardProps) => {
+  const imageJutsuSrc = !!img[0] ? img[0].src : EmptyImage.src;
+  const imageJutsuAlt = !!img[0] ? img[0].alt : name;
+
+  return (
+    <S.Wrapper>
+      <S.BoxImage>
+        <Image
+          src={imageJutsuSrc}
+          alt={imageJutsuAlt}
+          width="256"
+          height="176"
+        />
+      </S.BoxImage>
+      <S.Name>{name}</S.Name>
+    </S.Wrapper>
+  );
+};
 
 export default JutsuCard;

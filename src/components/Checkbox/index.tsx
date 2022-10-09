@@ -22,7 +22,7 @@ const Checkbox = ({ label, labelFor, value }: CheckboxProps) => {
         type="checkbox"
         value={value}
         checked={checked}
-        onClick={onChange}
+        onChange={onChange}
       />
       <S.Label htmlFor={labelFor}>{label}</S.Label>
     </S.Wrapper>

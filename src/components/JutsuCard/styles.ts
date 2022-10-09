@@ -18,13 +18,14 @@ export const BoxImage = styled.div`
 
 export const Name = styled.span`
   width: 100%;
-  height: 24px;
+  height: 32px;
   display: flex;
   align-items: center;
   justify-content: center;
   background-color: ${({ theme }) => theme.background.primary};
   border-radius: 0 0 4px 4px;
-  font-size: 14px;
+  font-size: 12px;
+  text-align: center;
   font-weight: bold;
   margin-top: -4px;
 `;
