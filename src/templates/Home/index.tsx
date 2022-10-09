@@ -13,45 +13,55 @@ export type HomeTemplateProps = {
   children: React.ReactNode;
 };
 
-export type AllJutsusProps = {
-  total: number;
-  page: number;
-  pageSize: number;
-  jutsus: [
-    {
-      names: {
-        englishName: string;
-      };
+export type JutsuProps = {
+  names: {
+    englishName: string;
+  };
 
-      _id: string;
-      images: [
-        {
-          src: string;
-          alt: string;
-        },
-      ];
+  _id: string;
+  images: [
+    {
+      src: string;
+      alt: string;
     },
   ];
 };
 
+export type AllJutsusProps = {
+  total: number;
+  page: number;
+  pageSize: number;
+  jutsus: JutsuProps[];
+};
+
 const Home = () => {
   const [isOpenFilter, setIsOpenFilter] = useState(false);
+  const [page, setPage] = useState(0);
+  const [jutsuList, setJutsuList] = useState<JutsuProps[]>([]);
+
+  async function getAllJutsuWithPage(pageNumber: number) {
+    const data = await api
+      .get<AllJutsusProps>(`/jutsus?limit=20&page=${pageNumber}`)
+      .then((response) => response.data);
+
+    setJutsuList((prev) => [...prev, ...data.jutsus]);
+    return data;
+  }
 
   const {
     data: allJutsus,
     isError,
     isLoading,
-  } = useQuery([`jutsus`], () =>
-    api
-      .get<AllJutsusProps>(`/jutsus?limit=20&page=0`)
-      .then((response) => response.data),
-  );
+  } = useQuery([`jutsus`, page], () => getAllJutsuWithPage(page));
 
-  console.log(`data`, allJutsus);
-  console.log(`isError`, isError);
+  console.log(`jutsuList`, jutsuList);
 
   function handleOpenFilter() {
     setIsOpenFilter((prev) => !prev);
+  }
+
+  function handleLoadMoreJutsus() {
+    setPage((prev) => prev + 1);
   }
 
   return (
@@ -64,8 +74,8 @@ const Home = () => {
         <S.Content>
           <SearchFilter onOpenFilter={handleOpenFilter} />
           <BoxJutsus>
-            {!!allJutsus &&
-              allJutsus.jutsus.map((jutsu) => (
+            {!!jutsuList &&
+              jutsuList.map((jutsu) => (
                 <JutsuCard
                   key={jutsu._id}
                   img={jutsu.images}
@@ -73,6 +83,7 @@ const Home = () => {
                 />
               ))}
           </BoxJutsus>
+          <button onClick={handleLoadMoreJutsus}>More jutsus</button>
         </S.Content>
       </S.Container>
     </Base>
