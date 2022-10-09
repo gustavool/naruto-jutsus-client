@@ -1,7 +1,6 @@
 import BoxJutsus from '@/components/BoxJutsus';
 import FilterBar from '@/components/FilterBar';
 import JutsuCard from '@/components/JutsuCard';
-import SearchBar from '@/components/SearchBar';
 import SearchFilter from '@/components/SearchFilter';
 import { useState } from 'react';
 
