@@ -1,14 +1,16 @@
 import FilterIcon from '@/public/assets/icons/filter.svg';
-import * as S from './styles';
-import { useState } from 'react';
 import SearchBar from '../SearchBar';
-const SearchFilter = () => {
-  const [isOpen, setIsOpen] = useState(false);
+import * as S from './styles';
 
+export type SearchFilterProps = {
+  onOpenFilter: () => void;
+};
+
+const SearchFilter = ({ onOpenFilter }: SearchFilterProps) => {
   return (
     <S.Wrapper>
       <SearchBar />
-      <S.FilterWrapper onClick={() => setIsOpen(true)}>
+      <S.FilterWrapper onClick={onOpenFilter}>
         <FilterIcon />
       </S.FilterWrapper>
     </S.Wrapper>

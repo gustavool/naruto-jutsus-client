@@ -8,7 +8,6 @@ export const Wrapper = styled.div`
 
 export const FilterWrapper = styled.div`
   display: none;
-
   @media (max-width: ${breakpoints.md}) {
     display: flex;
     align-items: center;
