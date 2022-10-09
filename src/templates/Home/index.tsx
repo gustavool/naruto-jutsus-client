@@ -1,5 +1,5 @@
 import BoxJutsus from '@/components/BoxJutsus';
-import FilterSidebar from '@/components/FilterSidebar';
+import FilterBar from '@/components/FilterBar';
 import JutsuCard from '@/components/JutsuCard';
 import SearchBar from '@/components/SearchBar';
 
@@ -14,7 +14,7 @@ const Home = () => {
   return (
     <Base>
       <S.Container>
-        <FilterSidebar />
+        <FilterBar />
         <S.Content>
           <SearchBar />
           <BoxJutsus>

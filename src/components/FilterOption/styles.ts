@@ -2,17 +2,11 @@ import styled from 'styled-components';
 
 export const Wrapper = styled.div`
   width: 100%;
-  max-width: 146px;
-  margin-right: 8px;
-`;
+  position: relative;
 
-export const Content = styled.div``;
-
-export const BoxFilter = styled.div`
   & + & {
     margin-top: 16px;
   }
-  position: relative;
 
   &::after {
     position: absolute;
@@ -22,8 +16,6 @@ export const BoxFilter = styled.div`
     width: 64px;
     border-bottom: 1px solid ${({ theme }) => theme.background.primary};
   }
-  /* padding-bottom: 8px;
-  border-bottom: 1px solid ${({ theme }) => theme.background.primary}; */
 `;
 
 export const Filter = styled.div`
@@ -49,7 +41,7 @@ export const Title = styled.h2`
     position: absolute;
     content: '';
     left: 0;
-    bottom: -1px;
+    bottom: -4px;
     width: 32px;
     border-bottom: 2px solid ${({ theme }) => theme.background.primary};
   }

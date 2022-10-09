@@ -1,17 +1,13 @@
 import SearchIcon from '@/public/assets/icons/search.svg';
-import FilterIcon from '@/public/assets/icons/filter.svg';
 import * as S from './styles';
 
-const SearchBar = () => (
-  <S.Wrapper>
-    <S.Bar>
+const SearchBar = () => {
+  return (
+    <S.Wrapper>
       <input type="text" placeholder="Search jutsu ..." />
       <SearchIcon />
-    </S.Bar>
-    <S.BoxFilter>
-      <FilterIcon />
-    </S.BoxFilter>
-  </S.Wrapper>
-);
+    </S.Wrapper>
+  );
+};
 
 export default SearchBar;

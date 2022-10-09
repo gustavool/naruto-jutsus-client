@@ -3,11 +3,6 @@ import styled from 'styled-components';
 export const Wrapper = styled.div`
   display: flex;
   align-items: center;
-`;
-
-export const Bar = styled.div`
-  display: flex;
-  align-items: center;
   justify-content: center;
   width: 100%;
   height: 48px;
@@ -17,7 +12,7 @@ export const Bar = styled.div`
   svg {
     width: 28px;
     height: 28px;
-    margin-right: 8px;
+    margin: 0 8px 0 4px;
   }
 
   input {
@@ -27,13 +22,4 @@ export const Bar = styled.div`
     padding: 8px;
     border-radius: 4px;
   }
-`;
-
-export const BoxFilter = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 48px;
-  height: 48px;
-  cursor: pointer;
 `;
