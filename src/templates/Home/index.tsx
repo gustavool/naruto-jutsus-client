@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { useQuery } from 'react-query';
+import { Fragment, useState } from 'react';
+import { useInfiniteQuery, useQuery } from 'react-query';
 import BoxJutsus from '@/components/BoxJutsus';
 import FilterBar from '@/components/FilterBar';
 import JutsuCard from '@/components/JutsuCard';
@@ -36,33 +36,35 @@ export type AllJutsusProps = {
 
 const Home = () => {
   const [isOpenFilter, setIsOpenFilter] = useState(false);
-  const [page, setPage] = useState(0);
-  const [jutsuList, setJutsuList] = useState<JutsuProps[]>([]);
+  const [page, setPage] = useState(1);
 
-  async function getAllJutsuWithPage(pageNumber: number) {
+  async function getAllJutsuWithPage(page: number) {
+    console.log(`page`, page);
     const data = await api
-      .get<AllJutsusProps>(`/jutsus?limit=20&page=${pageNumber}`)
+      .get<AllJutsusProps>(`/jutsus?limit=20&page=${page}`)
       .then((response) => response.data);
 
-    setJutsuList((prev) => [...prev, ...data.jutsus]);
     return data;
   }
 
-  const {
-    data: allJutsus,
-    isError,
-    isLoading,
-  } = useQuery([`jutsus`, page], () => getAllJutsuWithPage(page));
+  const { data, isSuccess, hasNextPage, fetchNextPage, isFetchingNextPage } =
+    useInfiniteQuery(
+      [`jutsus`],
+      ({ pageParam = 0 }) => getAllJutsuWithPage(pageParam),
+      {
+        getNextPageParam: (lastPage) => lastPage.page + 1,
+      },
+    );
 
-  console.log(`jutsuList`, jutsuList);
+  console.log(`jutsuList`, data);
 
   function handleOpenFilter() {
     setIsOpenFilter((prev) => !prev);
   }
 
-  function handleLoadMoreJutsus() {
-    setPage((prev) => prev + 1);
-  }
+  // function handleLoadMoreJutsus() {
+  //   setPage((prev) => prev + 1);
+  // }
 
   return (
     <Base>
@@ -74,16 +76,22 @@ const Home = () => {
         <S.Content>
           <SearchFilter onOpenFilter={handleOpenFilter} />
           <BoxJutsus>
-            {!!jutsuList &&
-              jutsuList.map((jutsu) => (
-                <JutsuCard
-                  key={jutsu._id}
-                  img={jutsu.images}
-                  name={jutsu.names.englishName}
-                />
-              ))}
+            {!!data &&
+              data.pages.map((page, index) => {
+                return (
+                  <Fragment key={index}>
+                    {page.jutsus.map((jutsu) => (
+                      <JutsuCard
+                        key={jutsu._id}
+                        img={jutsu.images}
+                        name={jutsu.names.englishName}
+                      />
+                    ))}
+                  </Fragment>
+                );
+              })}
           </BoxJutsus>
-          <button onClick={handleLoadMoreJutsus}>More jutsus</button>
+          <button onClick={() => fetchNextPage()}>More jutsus</button>
         </S.Content>
       </S.Container>
     </Base>
