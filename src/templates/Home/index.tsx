@@ -4,6 +4,7 @@ import BoxJutsus from '@/components/BoxJutsus';
 import FilterBar from '@/components/FilterBar';
 import JutsuCard from '@/components/JutsuCard';
 import SearchFilter from '@/components/SearchFilter';
+import ArrowIcon from '@/public/assets/icons/arrow.svg';
 
 import Base from '../Base';
 import * as S from './styles';
@@ -34,14 +35,15 @@ export type AllJutsusProps = {
   jutsus: JutsuProps[];
 };
 
+const LIMIT = 20;
+
 const Home = () => {
   const [isOpenFilter, setIsOpenFilter] = useState(false);
-  const [page, setPage] = useState(1);
 
   async function getAllJutsuWithPage(page: number) {
     console.log(`page`, page);
     const data = await api
-      .get<AllJutsusProps>(`/jutsus?limit=20&page=${page}`)
+      .get<AllJutsusProps>(`/jutsus?limit=${LIMIT}&page=${page}`)
       .then((response) => response.data);
 
     return data;
@@ -52,19 +54,19 @@ const Home = () => {
       [`jutsus`],
       ({ pageParam = 0 }) => getAllJutsuWithPage(pageParam),
       {
-        getNextPageParam: (lastPage) => lastPage.page + 1,
+        getNextPageParam: (lastPage) => {
+          const lastPageAvailable = Math.floor(lastPage.total / LIMIT);
+          if (lastPage.page < lastPageAvailable) {
+            return lastPage.page + 1;
+          }
+          return undefined;
+        },
       },
     );
-
-  console.log(`jutsuList`, data);
 
   function handleOpenFilter() {
     setIsOpenFilter((prev) => !prev);
   }
-
-  // function handleLoadMoreJutsus() {
-  //   setPage((prev) => prev + 1);
-  // }
 
   return (
     <Base>
@@ -91,7 +93,10 @@ const Home = () => {
                 );
               })}
           </BoxJutsus>
-          <button onClick={() => fetchNextPage()}>More jutsus</button>
+          <S.ShowMoreButton role="button" onClick={() => fetchNextPage()}>
+            <p>More jutsus</p>
+            <ArrowIcon />
+          </S.ShowMoreButton>
         </S.Content>
       </S.Container>
     </Base>
