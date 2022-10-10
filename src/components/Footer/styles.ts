@@ -16,14 +16,14 @@ export const Wrapper = styled.footer`
     align-items: center;
 
     > svg {
-      stroke: ${({ theme }) => theme.background.primary};
+      stroke: ${({ theme }) => theme.white};
       margin: 0 4px;
     }
   }
 `;
 
 export const LinkRepo = styled.a`
-  color: ${({ theme }) => theme.background.primary};
+  color: ${({ theme }) => theme.white};
   text-decoration: none;
   cursor: pointer;
   display: flex;
@@ -33,7 +33,7 @@ export const LinkRepo = styled.a`
   margin-left: 4px;
 
   svg {
-    fill: ${({ theme }) => theme.background.primary};
+    fill: ${({ theme }) => theme.white};
   }
 
   :hover {
