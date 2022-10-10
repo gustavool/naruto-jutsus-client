@@ -1,5 +1,5 @@
-import { Fragment, useState } from 'react';
-import { useInfiniteQuery, useQuery } from 'react-query';
+import { Fragment, useCallback, useState } from 'react';
+import { useInfiniteQuery } from 'react-query';
 import BoxJutsus from '@/components/BoxJutsus';
 import FilterBar from '@/components/FilterBar';
 import JutsuCard from '@/components/JutsuCard';
@@ -41,7 +41,6 @@ const Home = () => {
   const [isOpenFilter, setIsOpenFilter] = useState(false);
 
   async function getAllJutsuWithPage(page: number) {
-    console.log(`page`, page);
     const data = await api
       .get<AllJutsusProps>(`/jutsus?limit=${LIMIT}&page=${page}`)
       .then((response) => response.data);
@@ -64,9 +63,9 @@ const Home = () => {
       },
     );
 
-  function handleOpenFilter() {
+  const handleOpenFilter = useCallback(() => {
     setIsOpenFilter((prev) => !prev);
-  }
+  }, []);
 
   return (
     <Base>

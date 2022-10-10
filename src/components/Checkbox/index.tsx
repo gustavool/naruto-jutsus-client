@@ -11,7 +11,6 @@ const Checkbox = ({ label, labelFor, value }: CheckboxProps) => {
   const [checked, setChecked] = useState(false);
 
   const onChange = () => {
-    console.log(`chamou`);
     setChecked((prev) => !prev);
   };
 

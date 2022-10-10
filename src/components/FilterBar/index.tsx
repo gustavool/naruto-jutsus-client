@@ -6,6 +6,7 @@ import {
 import CloseIcon from '@/public/assets/icons/close.svg';
 import FilterOption from '../FilterOption';
 import * as S from './styles';
+import { useRef } from 'react';
 
 export type FilterBarProps = {
   isOpenFilter: boolean;
@@ -13,14 +14,23 @@ export type FilterBarProps = {
 };
 
 const FilterBar = ({ isOpenFilter, onOpenFilter }: FilterBarProps) => {
+  const filterRef = useRef(null);
+
+  function closeFilter(e: any) {
+    if (filterRef.current === e.target) {
+      onOpenFilter();
+    }
+  }
+
   return (
-    <S.Wrapper isOpen={isOpenFilter}>
+    <S.Wrapper
+      isOpen={isOpenFilter}
+      ref={filterRef}
+      onClick={isOpenFilter ? closeFilter : undefined}
+    >
       <S.Content>
         {!!isOpenFilter && (
-          <CloseIcon
-            onClick={() => onOpenFilter()}
-            aria-label="close filter options"
-          />
+          <CloseIcon onClick={onOpenFilter} aria-label="close filter options" />
         )}
         <FilterOption title={filterDebuts.title} fields={filterDebuts.fields} />
         <FilterOption
