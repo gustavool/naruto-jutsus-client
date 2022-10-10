@@ -41,3 +41,10 @@ export const ShowMoreButton = styled.div`
     }
   }
 `;
+
+export const ShowMoreLoading = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 24px auto 16px auto;
+`;
