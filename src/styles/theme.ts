@@ -8,4 +8,5 @@ export const defaultTheme = {
   },
   white: `#FFFFFF`,
   black: `#585858`,
+  pink: `#F272AD`,
 };

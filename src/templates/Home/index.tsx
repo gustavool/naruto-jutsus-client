@@ -9,6 +9,7 @@ import ArrowIcon from '@/public/assets/icons/arrow.svg';
 import Base from '../Base';
 import * as S from './styles';
 import api from '@/services/api';
+import BackToTop from '@/components/BackToTop';
 
 export type HomeTemplateProps = {
   children: React.ReactNode;
@@ -97,6 +98,7 @@ const Home = () => {
             <ArrowIcon />
           </S.ShowMoreButton>
         </S.Content>
+        <BackToTop />
       </S.Container>
     </Base>
   );
