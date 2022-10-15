@@ -112,6 +112,7 @@ const Home = () => {
     },
   };
 
+  console.log(`hasNextPageJutsusByName`, hasNextPageJutsusByName);
   console.log(`jutsuList`, jutsuList);
   console.log(`typedJutsuName`, typedJutsuName);
 

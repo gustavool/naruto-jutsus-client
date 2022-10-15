@@ -14,7 +14,7 @@ export default function useGetAllJutsus(limit: number, enable: boolean) {
     ({ pageParam = 0 }) => getAllJutsuWithPage(pageParam),
     {
       getNextPageParam: (lastPage) => {
-        const lastPageAvailable = Math.floor(lastPage.total / limit);
+        const lastPageAvailable = Math.floor(lastPage.total / limit) - 1;
         if (lastPage.page < lastPageAvailable) {
           return lastPage.page + 1;
         }
