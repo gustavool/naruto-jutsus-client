@@ -1,10 +1,14 @@
 import SearchIcon from '@/public/assets/icons/search.svg';
 import * as S from './styles';
 
-const SearchBar = () => {
+export type SearchBarProps = {
+  onType: (e: React.ChangeEvent<HTMLInputElement>) => void;
+};
+
+const SearchBar = ({ onType }: SearchBarProps) => {
   return (
     <S.Wrapper>
-      <input type="text" placeholder="Search jutsu ..." />
+      <input type="text" placeholder="Search jutsu ..." onChange={onType} />
       <SearchIcon />
     </S.Wrapper>
   );

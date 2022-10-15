@@ -4,12 +4,13 @@ import * as S from './styles';
 
 export type SearchFilterProps = {
   onOpenFilter: () => void;
+  onType: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
-const SearchFilter = ({ onOpenFilter }: SearchFilterProps) => {
+const SearchFilter = ({ onOpenFilter, onType }: SearchFilterProps) => {
   return (
     <S.Wrapper>
-      <SearchBar />
+      <SearchBar onType={onType} />
       <S.FilterWrapper onClick={onOpenFilter}>
         <FilterIcon />
       </S.FilterWrapper>
