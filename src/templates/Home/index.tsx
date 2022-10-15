@@ -1,4 +1,4 @@
-import { Fragment, useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import useGetAllJutsus from '@/hooks/ReactQuery/useGetAllJutsus';
 import BoxJutsus from '@/components/BoxJutsus';
 import FilterBar from '@/components/FilterBar';
@@ -7,7 +7,6 @@ import BackToTop from '@/components/BackToTop';
 import SearchFilter from '@/components/SearchFilter';
 import ArrowIcon from '@/public/assets/icons/arrow.svg';
 import Base from '../Base';
-import * as S from './styles';
 import Spinner from '@/components/Spinner';
 import { AllJutsusProps, JutsuProps } from '@/hooks/ReactQuery/types';
 import useGetJutsusByName from '@/hooks/ReactQuery/useGetJutsusByName';
@@ -16,6 +15,7 @@ import {
   InfiniteData,
   InfiniteQueryObserverResult,
 } from 'react-query';
+import * as S from './styles';
 
 export type HomeTemplateProps = {
   children: React.ReactNode;
@@ -41,7 +41,7 @@ const LIMIT = 20;
 
 const Home = () => {
   const [isOpenFilter, setIsOpenFilter] = useState(false);
-  const [justuList, setJutsuList] = useState<JutsuProps[]>([]);
+  const [jutsuList, setJutsuList] = useState<JutsuProps[]>([]);
   const [typedJutsuName, setTypedJutsuName] = useState(``);
   const [typeSearch, setTypeSearch] = useState<TypeSearch>(`byAll`);
 
@@ -70,9 +70,8 @@ const Home = () => {
       });
     });
 
-    if (!!allJutsusList && allJutsusList?.length > 0) {
-      setJutsuList(allJutsusList);
-    }
+    const jutsusFetched = !!allJutsusList ? allJutsusList : [];
+    setJutsuList(jutsusFetched);
   }, [allJutsus]);
 
   useEffect(() => {
@@ -82,9 +81,9 @@ const Home = () => {
       });
     });
 
-    if (!!jutsusByNameList && jutsusByNameList?.length > 0) {
-      setJutsuList(jutsusByNameList);
-    }
+    const jutsusFetched = !!jutsusByNameList ? jutsusByNameList : [];
+
+    setJutsuList(jutsusFetched);
   }, [jutsusByName]);
 
   const handleOpenFilter = useCallback(() => {
@@ -113,8 +112,8 @@ const Home = () => {
     },
   };
 
-  console.log(`jutsusByName`, jutsusByName);
-  console.log(`allJutsus`, allJutsus);
+  console.log(`jutsuList`, jutsuList);
+  console.log(`typedJutsuName`, typedJutsuName);
 
   return (
     <Base>
@@ -129,8 +128,8 @@ const Home = () => {
             onType={handleTypeJutsuName}
           />
           <BoxJutsus>
-            {justuList.length > 0 &&
-              justuList.map((jutsu) => (
+            {jutsuList.length > 0 &&
+              jutsuList.map((jutsu) => (
                 <JutsuCard
                   key={jutsu._id}
                   img={jutsu.images}
@@ -145,7 +144,7 @@ const Home = () => {
               <Spinner />
             </S.ShowMoreLoading>
           )}
-          {!!justuList &&
+          {!!jutsuList &&
             !!searchOptions[typeSearch].hasNextPage &&
             !searchOptions[typeSearch].isFetchingNextPage && (
               <S.ShowMoreButton

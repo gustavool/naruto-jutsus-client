@@ -16,7 +16,7 @@ export default function useGetJutsusByName(
   }
 
   return useInfiniteQuery(
-    [`jutsu`],
+    [`jutsu-${name}`],
     ({ pageParam = 0 }) => getJutsusByName(pageParam),
     {
       getNextPageParam: (lastPage) => {
