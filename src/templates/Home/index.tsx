@@ -48,6 +48,7 @@ const Home = () => {
   const [typeSearch, setTypeSearch] = useState<TypeSearch>(`byAll`);
 
   console.log(`typeSearch`, typeSearch);
+  console.log(`jutsuList`, jutsuList);
   const debouncedJutsuName = useDebounce(typedJutsuName, DELAY_DEBOUNCE);
 
   const {
@@ -71,32 +72,42 @@ const Home = () => {
   }, []);
 
   const handleTypeJutsuName = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const nameTyped = e.target.value;
+
+    console.log(`nameTyped`, nameTyped);
+
+    if (!nameTyped) {
+      setTypeSearch(`byAll`);
+      return;
+    }
     setTypeSearch(`byName`);
-    setTypedJutsuName(e.target.value);
+    setTypedJutsuName(nameTyped);
   };
 
   useEffect(() => {
-    const allJutsusList = allJutsus?.pages.flatMap((page) => {
-      return page.jutsus.map((jutsu) => {
-        return jutsu;
+    if (typeSearch === `byAll`) {
+      const allJutsusList = allJutsus?.pages.flatMap((page) => {
+        return page.jutsus.map((jutsu) => {
+          return jutsu;
+        });
       });
-    });
 
-    const jutsusFetched = !!allJutsusList ? allJutsusList : [];
-    setJutsuList(jutsusFetched);
-  }, [allJutsus]);
+      const jutsusFetched = !!allJutsusList ? allJutsusList : [];
+      setJutsuList(jutsusFetched);
+    }
 
-  useEffect(() => {
-    const jutsusByNameList = jutsusByName?.pages.flatMap((page) => {
-      return page.jutsus.map((jutsu) => {
-        return jutsu;
+    if (typeSearch === `byName`) {
+      const jutsusByNameList = jutsusByName?.pages.flatMap((page) => {
+        return page.jutsus.map((jutsu) => {
+          return jutsu;
+        });
       });
-    });
 
-    const jutsusFetched = !!jutsusByNameList ? jutsusByNameList : [];
+      const jutsusFetched = !!jutsusByNameList ? jutsusByNameList : [];
 
-    setJutsuList(jutsusFetched);
-  }, [jutsusByName]);
+      setJutsuList(jutsusFetched);
+    }
+  }, [typeSearch, allJutsus, jutsusByName]);
 
   const searchOptions: SearchOptionsObjLiterals = {
     byName: {
