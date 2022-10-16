@@ -49,7 +49,7 @@ export const filterClassifications = {
     { label: `Clone Techniques`, value: `Clone Techniques` },
     { label: `Space–Time Ninjutsu`, value: `Space–Time Ninjutsu` },
     { label: `Kekkei Genkai`, value: `Kekkei Genkai` },
-    { label: `None`, value: `` },
+    { label: `Without Classification`, value: `` },
   ],
 };
 
@@ -80,6 +80,6 @@ export const filterTypes = {
     { label: `Scorch Release`, value: `Scorch Release` },
     { label: `Yin Release`, value: `Yin Release` },
     { label: `Dark Release`, value: `Dark Release` },
-    { label: `None`, value: `` },
+    { label: `Without Type`, value: `` },
   ],
 };

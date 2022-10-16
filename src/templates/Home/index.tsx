@@ -16,6 +16,7 @@ import {
   InfiniteQueryObserverResult,
 } from 'react-query';
 import * as S from './styles';
+import { useDebounce } from '@/hooks/useDebounce';
 
 export type HomeTemplateProps = {
   children: React.ReactNode;
@@ -38,6 +39,7 @@ type SearchOptionsObjLiterals = {
 };
 
 const LIMIT = 20;
+const DELAY_DEBOUNCE = 500; //500ms
 
 const Home = () => {
   const [isOpenFilter, setIsOpenFilter] = useState(false);
@@ -46,6 +48,7 @@ const Home = () => {
   const [typeSearch, setTypeSearch] = useState<TypeSearch>(`byAll`);
 
   console.log(`typeSearch`, typeSearch);
+  const debouncedJutsuName = useDebounce(typedJutsuName, DELAY_DEBOUNCE);
 
   const {
     data: allJutsus,
@@ -61,7 +64,16 @@ const Home = () => {
     isLoading: isLoadingJutsusByName,
     fetchNextPage: fetchNextPageJutsusByName,
     isFetchingNextPage: isFetchingNextPageJutsusByName,
-  } = useGetJutsusByName(LIMIT, typedJutsuName, typeSearch === `byName`);
+  } = useGetJutsusByName(LIMIT, debouncedJutsuName, typeSearch === `byName`);
+
+  const handleOpenFilter = useCallback(() => {
+    setIsOpenFilter((prev) => !prev);
+  }, []);
+
+  const handleTypeJutsuName = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setTypeSearch(`byName`);
+    setTypedJutsuName(e.target.value);
+  };
 
   useEffect(() => {
     const allJutsusList = allJutsus?.pages.flatMap((page) => {
@@ -86,15 +98,6 @@ const Home = () => {
     setJutsuList(jutsusFetched);
   }, [jutsusByName]);
 
-  const handleOpenFilter = useCallback(() => {
-    setIsOpenFilter((prev) => !prev);
-  }, []);
-
-  const handleTypeJutsuName = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTypeSearch(`byName`);
-    setTypedJutsuName(e.target.value);
-  };
-
   const searchOptions: SearchOptionsObjLiterals = {
     byName: {
       data: jutsusByName,
@@ -111,10 +114,6 @@ const Home = () => {
       isFetchingNextPage: isFetchingNextPageAllJutsus,
     },
   };
-
-  console.log(`hasNextPageJutsusByName`, hasNextPageJutsusByName);
-  console.log(`jutsuList`, jutsuList);
-  console.log(`typedJutsuName`, typedJutsuName);
 
   return (
     <Base>
