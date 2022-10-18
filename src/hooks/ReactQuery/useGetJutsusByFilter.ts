@@ -2,10 +2,28 @@ import api from '@/services/api';
 import { useInfiniteQuery } from 'react-query';
 import { AllJutsusProps } from './types';
 
-export default function useGetJutsusByFilter(limit: number, enable: boolean) {
+type FiltersProps = {
+  debuts: string[];
+  classifications: string[];
+};
+
+export default function useGetJutsusByFilter(
+  limit: number,
+  enable: boolean,
+  filters: FiltersProps,
+) {
+  const debutsFilter =
+    filters.debuts.length > 0 ? `&debuts=${filters.debuts.join(`,`)}` : ``;
+  const classificationsFilter =
+    filters.classifications.length > 0
+      ? `&classifications=${filters.classifications.join(`,`)}`
+      : ``;
+
   async function getJutsusByFilter(pageNumber: number) {
     return await api
-      .get<AllJutsusProps>(`/jutsus?limit=${limit}&page=${pageNumber}`)
+      .get<AllJutsusProps>(
+        `/jutsus/filters?limit=${limit}&page=${pageNumber}${debutsFilter}${classificationsFilter}`,
+      )
       .then((response) => response.data);
   }
 

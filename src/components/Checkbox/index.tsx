@@ -4,14 +4,16 @@ import * as S from './styles';
 export type CheckboxProps = {
   label: string;
   labelFor: string;
-  value?: string | ReadonlyArray<string> | number;
+  value?: string;
+  onCheck: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
-const Checkbox = ({ label, labelFor, value }: CheckboxProps) => {
+const Checkbox = ({ label, labelFor, value, onCheck }: CheckboxProps) => {
   const [checked, setChecked] = useState(false);
 
-  const onChange = () => {
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setChecked((prev) => !prev);
+    onCheck(e);
   };
 
   return (

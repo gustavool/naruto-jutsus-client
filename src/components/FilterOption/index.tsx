@@ -1,3 +1,4 @@
+import { FilterCheckProps } from '@/templates/Home';
 import Checkbox from '../Checkbox';
 import * as S from './styles';
 
@@ -7,11 +8,19 @@ type FilterOptionProps = {
     label: string;
     value: string;
   }[];
+  onCheck: (filterChecked: FilterCheckProps) => void;
 };
 
-const FilterOption = ({ title, fields }: FilterOptionProps) => {
+const FilterOption = ({ title, fields, onCheck }: FilterOptionProps) => {
   if (fields.length === 0) {
     return null;
+  }
+
+  function handleCheckFilters(e: React.ChangeEvent<HTMLInputElement>) {
+    onCheck({
+      type: title,
+      option: e.target.value,
+    });
   }
 
   return (
@@ -24,6 +33,8 @@ const FilterOption = ({ title, fields }: FilterOptionProps) => {
               key={field.value}
               label={field.label}
               labelFor={field.label}
+              value={field.value}
+              onCheck={handleCheckFilters}
             />
           );
         })}

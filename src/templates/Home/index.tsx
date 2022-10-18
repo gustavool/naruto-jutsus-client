@@ -15,14 +15,15 @@ import {
   InfiniteData,
   InfiniteQueryObserverResult,
 } from 'react-query';
-import * as S from './styles';
 import { useDebounce } from '@/hooks/useDebounce';
+import useGetJutsusByFilter from '@/hooks/ReactQuery/useGetJutsusByFilter';
+import * as S from './styles';
 
 export type HomeTemplateProps = {
   children: React.ReactNode;
 };
 
-type TypeSearch = 'byAll' | 'byName';
+type TypeSearch = 'byAll' | 'byName' | 'byFilter';
 
 type SearchOptions = {
   data: InfiniteData<AllJutsusProps> | undefined;
@@ -38,6 +39,11 @@ type SearchOptionsObjLiterals = {
   [key in TypeSearch]: SearchOptions;
 };
 
+export type FilterCheckProps = {
+  type: string;
+  option: string;
+};
+
 const LIMIT = 20;
 const DELAY_DEBOUNCE = 500; //500ms
 
@@ -46,10 +52,15 @@ const Home = () => {
   const [jutsuList, setJutsuList] = useState<JutsuProps[]>([]);
   const [typedJutsuName, setTypedJutsuName] = useState(``);
   const [typeSearch, setTypeSearch] = useState<TypeSearch>(`byAll`);
+  const [filters, setFilters] = useState<FilterCheckProps[]>([]);
 
-  console.log(`typeSearch`, typeSearch);
-  console.log(`jutsuList`, jutsuList);
   const debouncedJutsuName = useDebounce(typedJutsuName, DELAY_DEBOUNCE);
+
+  // console.log(`filterOptions`, filterOptions);
+
+  // const filtersSeparated = filters.map((filter) => {
+  //   console.log(new Set(Object.keys(filter)));
+  // });
 
   const {
     data: allJutsus,
@@ -67,14 +78,23 @@ const Home = () => {
     isFetchingNextPage: isFetchingNextPageJutsusByName,
   } = useGetJutsusByName(LIMIT, debouncedJutsuName, typeSearch === `byName`);
 
+  const {
+    data: jutsusByFilter,
+    hasNextPage: hasNextPageByFilter,
+    isLoading: isLoadingByFilter,
+    fetchNextPage: fetchNextPageByFilter,
+    isFetchingNextPage: isFetchingNextPageByFilter,
+  } = useGetJutsusByFilter(LIMIT, typeSearch === `byFilter`, {
+    debuts: [`Anime`, `Game`],
+    classifications: [],
+  });
+
   const handleOpenFilter = useCallback(() => {
     setIsOpenFilter((prev) => !prev);
   }, []);
 
-  const handleTypeJutsuName = (e: React.ChangeEvent<HTMLInputElement>) => {
+  function handleTypeJutsuName(e: React.ChangeEvent<HTMLInputElement>) {
     const nameTyped = e.target.value;
-
-    console.log(`nameTyped`, nameTyped);
 
     if (!nameTyped) {
       setTypeSearch(`byAll`);
@@ -82,8 +102,39 @@ const Home = () => {
     }
     setTypeSearch(`byName`);
     setTypedJutsuName(nameTyped);
-  };
+  }
 
+  function handleCheckFilters(filterChecked: FilterCheckProps) {
+    // const listFilters = Array.from(
+    //   new Set(filters.map((filterObj) => filterObj.type)),
+    // ).map((type) => {
+    //   return {
+    //     type: type,
+    //     option: filters
+    //       .filter((filterObj) => filterObj.type === type)
+    //       .map((filterSameType) => filterSameType.option),
+    //   };
+    // });
+
+    const listTest = filters.filter((filterOption) => {
+      console.log(`filterOption`, filterOption);
+      console.log(`filterChecked`, filterChecked);
+      return filterOption.option !== filterChecked.option;
+    });
+
+    const alreadySelected = filters.some(
+      (currentFilter) => currentFilter.option === filterChecked.option,
+    );
+
+    if (alreadySelected) {
+      setFilters(listTest);
+    } else {
+      setFilters((prev) => [...prev, filterChecked]);
+    }
+
+    console.log(`listTest`, listTest);
+  }
+  console.log(`filters`, filters);
   useEffect(() => {
     if (typeSearch === `byAll`) {
       const allJutsusList = allJutsus?.pages.flatMap((page) => {
@@ -124,6 +175,13 @@ const Home = () => {
       fetchNextPage: fetchNextPageAllJutsus,
       isFetchingNextPage: isFetchingNextPageAllJutsus,
     },
+    byFilter: {
+      data: jutsusByFilter,
+      hasNextPage: hasNextPageByFilter,
+      isLoading: isLoadingByFilter,
+      fetchNextPage: fetchNextPageByFilter,
+      isFetchingNextPage: isFetchingNextPageByFilter,
+    },
   };
 
   return (
@@ -132,6 +190,7 @@ const Home = () => {
         <FilterBar
           isOpenFilter={isOpenFilter}
           onOpenFilter={handleOpenFilter}
+          onCheck={handleCheckFilters}
         />
         <S.Content>
           <SearchFilter
