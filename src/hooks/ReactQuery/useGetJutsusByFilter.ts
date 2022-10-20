@@ -5,6 +5,7 @@ import { AllJutsusProps } from './types';
 type FiltersProps = {
   debuts: string[];
   classifications: string[];
+  types: string[];
 };
 
 export default function useGetJutsusByFilter(
@@ -18,17 +19,19 @@ export default function useGetJutsusByFilter(
     filters.classifications.length > 0
       ? `&classifications=${filters.classifications.join(`,`)}`
       : ``;
+  const typesFilter =
+    filters.types.length > 0 ? `&types=${filters.types.join(`,`)}` : ``;
 
   async function getJutsusByFilter(pageNumber: number) {
     return await api
       .get<AllJutsusProps>(
-        `/jutsus/filters?limit=${limit}&page=${pageNumber}${debutsFilter}${classificationsFilter}`,
+        `/jutsus/filters?limit=${limit}&page=${pageNumber}${debutsFilter}${classificationsFilter}${typesFilter}`,
       )
       .then((response) => response.data);
   }
 
   return useInfiniteQuery(
-    [`jutsus-filtered`],
+    [`jutsus-filtered-${debutsFilter}-${classificationsFilter}-${typesFilter}`],
     ({ pageParam = 0 }) => getJutsusByFilter(pageParam),
     {
       getNextPageParam: (lastPage) => {

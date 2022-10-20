@@ -56,12 +56,6 @@ const Home = () => {
 
   const debouncedJutsuName = useDebounce(typedJutsuName, DELAY_DEBOUNCE);
 
-  // console.log(`filterOptions`, filterOptions);
-
-  // const filtersSeparated = filters.map((filter) => {
-  //   console.log(new Set(Object.keys(filter)));
-  // });
-
   const {
     data: allJutsus,
     hasNextPage: hasNextPageAllJutsus,
@@ -78,16 +72,31 @@ const Home = () => {
     isFetchingNextPage: isFetchingNextPageJutsusByName,
   } = useGetJutsusByName(LIMIT, debouncedJutsuName, typeSearch === `byName`);
 
+  const debutsSelected = filters
+    .filter((debut) => debut.type === `Debuts`)
+    .map((type) => type.option);
+  const classificationsSelected = filters
+    .filter((classification) => classification.type === `Classifications`)
+    .map((type) => type.option);
+  const typesSelected = filters
+    .filter((type) => type.type === `Types`)
+    .map((type) => type.option);
+
   const {
     data: jutsusByFilter,
     hasNextPage: hasNextPageByFilter,
     isLoading: isLoadingByFilter,
     fetchNextPage: fetchNextPageByFilter,
     isFetchingNextPage: isFetchingNextPageByFilter,
-  } = useGetJutsusByFilter(LIMIT, typeSearch === `byFilter`, {
-    debuts: [`Anime`, `Game`],
-    classifications: [],
-  });
+  } = useGetJutsusByFilter(
+    LIMIT,
+    typeSearch === `byFilter` && filters.length > 0,
+    {
+      debuts: debutsSelected,
+      classifications: classificationsSelected,
+      types: typesSelected,
+    },
+  );
 
   const handleOpenFilter = useCallback(() => {
     setIsOpenFilter((prev) => !prev);
@@ -105,22 +114,11 @@ const Home = () => {
   }
 
   function handleCheckFilters(filterChecked: FilterCheckProps) {
-    // const listFilters = Array.from(
-    //   new Set(filters.map((filterObj) => filterObj.type)),
-    // ).map((type) => {
-    //   return {
-    //     type: type,
-    //     option: filters
-    //       .filter((filterObj) => filterObj.type === type)
-    //       .map((filterSameType) => filterSameType.option),
-    //   };
-    // });
+    setTypeSearch(`byFilter`);
 
-    const listTest = filters.filter((filterOption) => {
-      console.log(`filterOption`, filterOption);
-      console.log(`filterChecked`, filterChecked);
-      return filterOption.option !== filterChecked.option;
-    });
+    const listTest = filters.filter(
+      (filterOption) => filterOption.option !== filterChecked.option,
+    );
 
     const alreadySelected = filters.some(
       (currentFilter) => currentFilter.option === filterChecked.option,
@@ -128,13 +126,11 @@ const Home = () => {
 
     if (alreadySelected) {
       setFilters(listTest);
-    } else {
-      setFilters((prev) => [...prev, filterChecked]);
+      return;
     }
-
-    console.log(`listTest`, listTest);
+    setFilters((prev) => [...prev, filterChecked]);
   }
-  console.log(`filters`, filters);
+
   useEffect(() => {
     if (typeSearch === `byAll`) {
       const allJutsusList = allJutsus?.pages.flatMap((page) => {
@@ -158,7 +154,22 @@ const Home = () => {
 
       setJutsuList(jutsusFetched);
     }
-  }, [typeSearch, allJutsus, jutsusByName]);
+
+    if (typeSearch === `byFilter`) {
+      if (filters.length === 0) {
+        setTypeSearch(`byAll`);
+        return;
+      }
+      const jutsusByFilterList = jutsusByFilter?.pages.flatMap((page) => {
+        return page.jutsus.map((jutsu) => {
+          return jutsu;
+        });
+      });
+
+      const jutsusFetched = !!jutsusByFilterList ? jutsusByFilterList : [];
+      setJutsuList(jutsusFetched);
+    }
+  }, [typeSearch, allJutsus, jutsusByName, jutsusByFilter, filters]);
 
   const searchOptions: SearchOptionsObjLiterals = {
     byName: {
