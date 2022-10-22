@@ -35,7 +35,7 @@ export default function useGetJutsusByFilter(
     ({ pageParam = 0 }) => getJutsusByFilter(pageParam),
     {
       getNextPageParam: (lastPage) => {
-        const lastPageAvailable = Math.floor(lastPage.total / limit) - 1;
+        const lastPageAvailable = Math.floor(lastPage.total / limit);
         if (lastPage.page < lastPageAvailable) {
           return lastPage.page + 1;
         }

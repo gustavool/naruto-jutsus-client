@@ -20,7 +20,10 @@ export default function useGetJutsusByName(
     ({ pageParam = 0 }) => getJutsusByName(pageParam),
     {
       getNextPageParam: (lastPage) => {
-        const lastPageAvailable = Math.floor(lastPage.total / limit) - 1;
+        console.log(`lastPage.total`, lastPage.total);
+        console.log(`limit`, limit);
+        const lastPageAvailable = Math.floor(lastPage.total / limit);
+        console.log(`lastPageAvailable`, lastPageAvailable);
         if (lastPage.page < lastPageAvailable) {
           return lastPage.page + 1;
         }
