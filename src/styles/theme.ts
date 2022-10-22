@@ -1,12 +1,10 @@
 export const defaultTheme = {
-  background: {
-    primary: `#FDC355`,
-    secondary: `#FFF2D1`,
+  colors: {
+    yellow700: `#FDC355`,
+    yellow300: `#FFF2D1`,
+    gray700: `#585858`,
+    pink700: `#F272AD`,
+    white: `#FFFFFF`,
+    black: `#18181B`,
   },
-  text: {
-    primary: `#585858`,
-  },
-  white: `#FFFFFF`,
-  black: `#585858`,
-  pink: `#F272AD`,
 };

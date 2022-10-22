@@ -17,11 +17,11 @@ export const Wrapper = styled.button<WrapperBackToTopProps>`
   cursor: pointer;
   padding: 8px;
   border-radius: 4px;
-  background-color: ${({ theme }) => theme.black};
+  background-color: ${({ theme }) => theme.colors.black};
 
   :hover {
     svg {
-      fill: ${({ theme }) => theme.white};
+      fill: ${({ theme }) => theme.colors.white};
     }
   }
 
@@ -29,6 +29,6 @@ export const Wrapper = styled.button<WrapperBackToTopProps>`
     transform: rotate(180deg);
     width: 24px;
     height: 24px;
-    fill: ${({ theme }) => theme.background.primary};
+    fill: ${({ theme }) => theme.colors.yellow700};
   }
 `;

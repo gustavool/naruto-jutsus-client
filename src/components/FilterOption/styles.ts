@@ -14,7 +14,7 @@ export const Wrapper = styled.div`
     left: 25%;
     bottom: -4px;
     width: 64px;
-    border-bottom: 1px solid ${({ theme }) => theme.background.primary};
+    border-bottom: 1px solid ${({ theme }) => theme.colors.yellow700};
   }
 `;
 
@@ -24,7 +24,7 @@ export const Filter = styled.div`
   overflow: auto;
 
   ::-webkit-scrollbar-thumb {
-    background: ${({ theme }) => theme.background.primary};
+    background: ${({ theme }) => theme.colors.yellow700};
     border-radius: 2px;
   }
 
@@ -43,6 +43,6 @@ export const Title = styled.h2`
     left: 0;
     bottom: -4px;
     width: 32px;
-    border-bottom: 2px solid ${({ theme }) => theme.background.primary};
+    border-bottom: 2px solid ${({ theme }) => theme.colors.yellow700};
   }
 `;

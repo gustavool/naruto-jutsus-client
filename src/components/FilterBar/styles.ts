@@ -48,7 +48,7 @@ export const Content = styled.div`
     ${FilterOptionStyles.Wrapper} {
       max-width: 150px;
       padding: 8px;
-      border-bottom: 1px solid ${({ theme }) => theme.black};
+      border-bottom: 1px solid ${({ theme }) => theme.colors.black};
       margin-top: 0;
 
       &::after {
@@ -92,7 +92,7 @@ export const Button = styled.button`
   @media (max-width: ${breakpoints.md}) {
     display: block;
     width: 100%;
-    background-color: ${({ theme }) => theme.background.primary};
+    background-color: ${({ theme }) => theme.colors.yellow700};
     border-radius: 4px;
     border: none;
     font-size: 16px;
@@ -102,8 +102,8 @@ export const Button = styled.button`
     padding: 4px;
 
     :hover {
-      background-color: ${({ theme }) => theme.background.secondary};
-      border: 2px solid ${({ theme }) => theme.background.primary};
+      background-color: ${({ theme }) => theme.colors.yellow300};
+      border: 2px solid ${({ theme }) => theme.colors.yellow700};
     }
   }
 `;

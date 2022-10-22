@@ -17,7 +17,7 @@ export const Input = styled.input`
   appearance: none;
   min-width: 18px;
   min-height: 18px;
-  border: 2px solid ${({ theme }) => theme.background.primary};
+  border: 2px solid ${({ theme }) => theme.colors.yellow700};
   border-radius: 4px;
   position: relative;
   outline: none;
@@ -27,7 +27,7 @@ export const Input = styled.input`
     content: '';
     width: 5px;
     height: 8px;
-    border: 2px solid ${({ theme }) => theme.white};
+    border: 2px solid ${({ theme }) => theme.colors.white};
     border-top: 0;
     border-left: 0;
     transform: rotate(45deg);
@@ -36,10 +36,10 @@ export const Input = styled.input`
     opacity: 0;
   }
   &:focus {
-    border: 2px solid ${({ theme }) => theme.black};
+    border: 2px solid ${({ theme }) => theme.colors.black};
   }
   &:checked {
-    background: ${({ theme }) => theme.background.primary};
+    background: ${({ theme }) => theme.colors.yellow700};
 
     &:before {
       opacity: 1;

@@ -5,7 +5,7 @@ export const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: ${({ theme }) => theme.background.primary};
+  background-color: ${({ theme }) => theme.colors.yellow700};
   width: 100%;
   height: auto;
   min-height: 100vh;
@@ -20,7 +20,7 @@ export const Content = styled.div`
   min-height: 100vh;
   height: 100%;
   max-width: ${breakpoints.lg};
-  background-color: ${({ theme }) => theme.background.secondary};
+  background-color: ${({ theme }) => theme.colors.yellow300};
   padding: 8px;
 `;
 
@@ -30,5 +30,5 @@ export const TopContent = styled.div`
   flex-direction: column;
   width: 100%;
   max-width: ${breakpoints.lg};
-  background-color: ${({ theme }) => theme.background.secondary};
+  background-color: ${({ theme }) => theme.colors.yellow300};
 `;

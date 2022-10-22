@@ -22,7 +22,7 @@ export const Name = styled.span`
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: ${({ theme }) => theme.background.primary};
+  background-color: ${({ theme }) => theme.colors.yellow700};
   border-radius: 0 0 4px 4px;
   font-size: 12px;
   text-align: center;

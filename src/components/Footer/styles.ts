@@ -5,25 +5,25 @@ export const Wrapper = styled.footer`
   width: 100%;
   max-width: ${breakpoints.lg};
   height: 56px;
-  background-color: ${({ theme }) => theme.black};
+  background-color: ${({ theme }) => theme.colors.black};
   display: flex;
   align-items: center;
   justify-content: center;
 
   span {
-    color: ${({ theme }) => theme.background.primary};
+    color: ${({ theme }) => theme.colors.yellow700};
     display: flex;
     align-items: center;
 
     > svg {
-      stroke: ${({ theme }) => theme.white};
+      stroke: ${({ theme }) => theme.colors.white};
       margin: 0 4px;
     }
   }
 `;
 
 export const LinkRepo = styled.a`
-  color: ${({ theme }) => theme.white};
+  color: ${({ theme }) => theme.colors.white};
   text-decoration: none;
   cursor: pointer;
   display: flex;
@@ -33,15 +33,15 @@ export const LinkRepo = styled.a`
   margin-left: 4px;
 
   svg {
-    fill: ${({ theme }) => theme.white};
+    fill: ${({ theme }) => theme.colors.white};
   }
 
   :hover {
-    color: ${({ theme }) => theme.background.secondary};
-    border-bottom: 2px solid ${({ theme }) => theme.background.secondary};
+    color: ${({ theme }) => theme.colors.yellow300};
+    border-bottom: 2px solid ${({ theme }) => theme.colors.yellow300};
 
     svg {
-      fill: ${({ theme }) => theme.background.secondary};
+      fill: ${({ theme }) => theme.colors.yellow300};
     }
   }
 `;

@@ -4,8 +4,8 @@ export const Wrapper = styled.div`
   svg {
     width: 32px;
     height: 32px;
-    fill: ${({ theme }) => theme.black};
-    stroke: ${({ theme }) => theme.black};
+    fill: ${({ theme }) => theme.colors.black};
+    stroke: ${({ theme }) => theme.colors.black};
     stroke-width: 24px;
     animation: spinner 1s linear infinite;
   }
