@@ -9,10 +9,11 @@ type FiltersProps = {
 };
 
 export default function useGetJutsusByFilter(
+  name: string,
   limit: number,
-  enable: boolean,
   filters: FiltersProps,
 ) {
+  const nameFilter = !!name ? `&name=${name}` : ``;
   const debutsFilter =
     filters.debuts.length > 0 ? `&debuts=${filters.debuts.join(`,`)}` : ``;
   const classificationsFilter =
@@ -25,23 +26,25 @@ export default function useGetJutsusByFilter(
   async function getJutsusByFilter(pageNumber: number) {
     return await api
       .get<AllJutsusProps>(
-        `/jutsus/filters?limit=${limit}&page=${pageNumber}${debutsFilter}${classificationsFilter}${typesFilter}`,
+        `/jutsus/filters?limit=${limit}&page=${pageNumber}${nameFilter}${debutsFilter}${classificationsFilter}${typesFilter}`,
       )
       .then((response) => response.data);
   }
 
   return useInfiniteQuery(
-    [`jutsus-filtered-${debutsFilter}-${classificationsFilter}-${typesFilter}`],
+    [
+      `jutsus-filtered-${nameFilter}-${debutsFilter}-${classificationsFilter}-${typesFilter}`,
+    ],
     ({ pageParam = 0 }) => getJutsusByFilter(pageParam),
     {
       getNextPageParam: (lastPage) => {
-        const lastPageAvailable = Math.floor(lastPage.total / limit);
+        const lastPageAvailable =
+          lastPage.total <= 20 ? 0 : Math.floor(lastPage.total / limit);
         if (lastPage.page < lastPageAvailable) {
           return lastPage.page + 1;
         }
         return undefined;
       },
-      enabled: enable,
     },
   );
 }

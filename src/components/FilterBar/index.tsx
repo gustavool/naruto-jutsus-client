@@ -49,7 +49,7 @@ const FilterBar = ({ isOpenFilter, onOpenFilter, onCheck }: FilterBarProps) => {
           fields={filterTypes.fields}
           onCheck={onCheck}
         />
-        {!!isOpenFilter && <S.Button>Filter</S.Button>}
+        {!!isOpenFilter && <S.Button onClick={onOpenFilter}>Filter</S.Button>}
       </S.Content>
     </S.Wrapper>
   );

@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useState } from 'react';
-import useGetAllJutsus from '@/hooks/ReactQuery/useGetAllJutsus';
 import BoxJutsus from '@/components/BoxJutsus';
 import FilterBar from '@/components/FilterBar';
 import JutsuCard from '@/components/JutsuCard';
@@ -8,35 +7,13 @@ import SearchFilter from '@/components/SearchFilter';
 import ArrowIcon from '@/public/assets/icons/arrow.svg';
 import Base from '../Base';
 import Spinner from '@/components/Spinner';
-import { AllJutsusProps, JutsuProps } from '@/hooks/ReactQuery/types';
-import useGetJutsusByName from '@/hooks/ReactQuery/useGetJutsusByName';
-import {
-  FetchNextPageOptions,
-  InfiniteData,
-  InfiniteQueryObserverResult,
-} from 'react-query';
+import { JutsuProps } from '@/hooks/ReactQuery/types';
 import { useDebounce } from '@/hooks/useDebounce';
 import useGetJutsusByFilter from '@/hooks/ReactQuery/useGetJutsusByFilter';
 import * as S from './styles';
 
 export type HomeTemplateProps = {
   children: React.ReactNode;
-};
-
-type TypeSearch = 'byAll' | 'byName' | 'byFilter';
-
-type SearchOptions = {
-  data: InfiniteData<AllJutsusProps> | undefined;
-  hasNextPage: boolean | undefined;
-  isLoading: boolean;
-  fetchNextPage: (
-    options?: FetchNextPageOptions | undefined,
-  ) => Promise<InfiniteQueryObserverResult<AllJutsusProps, unknown>>;
-  isFetchingNextPage: boolean;
-};
-
-type SearchOptionsObjLiterals = {
-  [key in TypeSearch]: SearchOptions;
 };
 
 export type FilterCheckProps = {
@@ -51,26 +28,9 @@ const Home = () => {
   const [isOpenFilter, setIsOpenFilter] = useState(false);
   const [jutsuList, setJutsuList] = useState<JutsuProps[]>([]);
   const [typedJutsuName, setTypedJutsuName] = useState(``);
-  const [typeSearch, setTypeSearch] = useState<TypeSearch>(`byAll`);
   const [filters, setFilters] = useState<FilterCheckProps[]>([]);
 
   const debouncedJutsuName = useDebounce(typedJutsuName, DELAY_DEBOUNCE);
-
-  const {
-    data: allJutsus,
-    hasNextPage: hasNextPageAllJutsus,
-    isLoading: isLoadingAllJutsus,
-    fetchNextPage: fetchNextPageAllJutsus,
-    isFetchingNextPage: isFetchingNextPageAllJutsus,
-  } = useGetAllJutsus(LIMIT, typeSearch === `byAll`);
-
-  const {
-    data: jutsusByName,
-    hasNextPage: hasNextPageJutsusByName,
-    isLoading: isLoadingJutsusByName,
-    fetchNextPage: fetchNextPageJutsusByName,
-    isFetchingNextPage: isFetchingNextPageJutsusByName,
-  } = useGetJutsusByName(LIMIT, debouncedJutsuName, typeSearch === `byName`);
 
   const debutsSelected = filters
     .filter((debut) => debut.type === `Debuts`)
@@ -88,15 +48,11 @@ const Home = () => {
     isLoading: isLoadingByFilter,
     fetchNextPage: fetchNextPageByFilter,
     isFetchingNextPage: isFetchingNextPageByFilter,
-  } = useGetJutsusByFilter(
-    LIMIT,
-    typeSearch === `byFilter` && filters.length > 0,
-    {
-      debuts: debutsSelected,
-      classifications: classificationsSelected,
-      types: typesSelected,
-    },
-  );
+  } = useGetJutsusByFilter(debouncedJutsuName, LIMIT, {
+    debuts: debutsSelected,
+    classifications: classificationsSelected,
+    types: typesSelected,
+  });
 
   const handleOpenFilter = useCallback(() => {
     setIsOpenFilter((prev) => !prev);
@@ -104,19 +60,11 @@ const Home = () => {
 
   function handleTypeJutsuName(e: React.ChangeEvent<HTMLInputElement>) {
     const nameTyped = e.target.value;
-
-    if (!nameTyped) {
-      setTypeSearch(`byAll`);
-      return;
-    }
-    setTypeSearch(`byName`);
     setTypedJutsuName(nameTyped);
   }
 
   function handleCheckFilters(filterChecked: FilterCheckProps) {
-    setTypeSearch(`byFilter`);
-
-    const listTest = filters.filter(
+    const prevFilters = filters.filter(
       (filterOption) => filterOption.option !== filterChecked.option,
     );
 
@@ -125,75 +73,22 @@ const Home = () => {
     );
 
     if (alreadySelected) {
-      setFilters(listTest);
+      setFilters(prevFilters);
       return;
     }
     setFilters((prev) => [...prev, filterChecked]);
   }
 
   useEffect(() => {
-    if (typeSearch === `byAll`) {
-      const allJutsusList = allJutsus?.pages.flatMap((page) => {
-        return page.jutsus.map((jutsu) => {
-          return jutsu;
-        });
+    const jutsusByFilterList = jutsusByFilter?.pages.flatMap((page) => {
+      return page.jutsus.map((jutsu) => {
+        return jutsu;
       });
+    });
 
-      const jutsusFetched = !!allJutsusList ? allJutsusList : [];
-      setJutsuList(jutsusFetched);
-    }
-
-    if (typeSearch === `byName`) {
-      const jutsusByNameList = jutsusByName?.pages.flatMap((page) => {
-        return page.jutsus.map((jutsu) => {
-          return jutsu;
-        });
-      });
-
-      const jutsusFetched = !!jutsusByNameList ? jutsusByNameList : [];
-
-      setJutsuList(jutsusFetched);
-    }
-
-    if (typeSearch === `byFilter`) {
-      if (filters.length === 0) {
-        setTypeSearch(`byAll`);
-        return;
-      }
-      const jutsusByFilterList = jutsusByFilter?.pages.flatMap((page) => {
-        return page.jutsus.map((jutsu) => {
-          return jutsu;
-        });
-      });
-
-      const jutsusFetched = !!jutsusByFilterList ? jutsusByFilterList : [];
-      setJutsuList(jutsusFetched);
-    }
-  }, [typeSearch, allJutsus, jutsusByName, jutsusByFilter, filters]);
-
-  const searchOptions: SearchOptionsObjLiterals = {
-    byName: {
-      data: jutsusByName,
-      hasNextPage: hasNextPageJutsusByName,
-      isLoading: isLoadingJutsusByName,
-      fetchNextPage: fetchNextPageJutsusByName,
-      isFetchingNextPage: isFetchingNextPageJutsusByName,
-    },
-    byAll: {
-      data: allJutsus,
-      hasNextPage: hasNextPageAllJutsus,
-      isLoading: isLoadingAllJutsus,
-      fetchNextPage: fetchNextPageAllJutsus,
-      isFetchingNextPage: isFetchingNextPageAllJutsus,
-    },
-    byFilter: {
-      data: jutsusByFilter,
-      hasNextPage: hasNextPageByFilter,
-      isLoading: isLoadingByFilter,
-      fetchNextPage: fetchNextPageByFilter,
-      isFetchingNextPage: isFetchingNextPageByFilter,
-    },
-  };
+    const jutsusFetched = !!jutsusByFilterList ? jutsusByFilterList : [];
+    setJutsuList(jutsusFetched);
+  }, [jutsusByFilter, filters]);
 
   return (
     <Base>
@@ -219,23 +114,20 @@ const Home = () => {
               ))}
           </BoxJutsus>
 
-          {(!!searchOptions[typeSearch].isLoading ||
-            !!searchOptions[typeSearch].isFetchingNextPage) && (
+          {(!!isLoadingByFilter || !!isFetchingNextPageByFilter) && (
             <S.ShowMoreLoading>
               <Spinner />
             </S.ShowMoreLoading>
           )}
-          {!!jutsuList &&
-            !!searchOptions[typeSearch].hasNextPage &&
-            !searchOptions[typeSearch].isFetchingNextPage && (
-              <S.ShowMoreButton
-                role="button"
-                onClick={() => searchOptions[typeSearch].fetchNextPage()}
-              >
-                <p>More jutsus</p>
-                <ArrowIcon />
-              </S.ShowMoreButton>
-            )}
+          {!!jutsuList && !!hasNextPageByFilter && !isFetchingNextPageByFilter && (
+            <S.ShowMoreButton
+              role="button"
+              onClick={() => fetchNextPageByFilter()}
+            >
+              <p>More jutsus</p>
+              <ArrowIcon />
+            </S.ShowMoreButton>
+          )}
         </S.Content>
         <BackToTop />
       </S.Container>
