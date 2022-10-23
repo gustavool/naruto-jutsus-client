@@ -23,7 +23,7 @@ export const filterSlice = createSlice({
     clearFilters: () => {
       return initialState;
     },
-    setFilters: (state: FilterState, action: PayloadAction<FilterState>) => {
+    addFilters: (state: FilterState, action: PayloadAction<FilterState>) => {
       return {
         ...state,
         ...action.payload,
@@ -32,6 +32,6 @@ export const filterSlice = createSlice({
   },
 });
 
-export const { clearFilters, setFilters } = filterSlice.actions;
+export const { clearFilters, addFilters } = filterSlice.actions;
 
 export default filterSlice.reducer;

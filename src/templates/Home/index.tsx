@@ -12,11 +12,8 @@ import { useDebounce } from '@/hooks/useDebounce';
 import useGetJutsusByFilter from '@/hooks/ReactQuery/useGetJutsusByFilter';
 import * as S from './styles';
 import Link from 'next/link';
-
-export type FilterCheckProps = {
-  type: string;
-  option: string;
-};
+import { useAppDispatch, useAppSelector } from '@/hooks/Redux';
+import { addFilters, FilterOptionType } from '@/store/Filters.store';
 
 const LIMIT = 20;
 const DELAY_DEBOUNCE = 500; //500ms
@@ -25,10 +22,10 @@ const Home = () => {
   const [isOpenFilter, setIsOpenFilter] = useState(false);
   const [jutsuList, setJutsuList] = useState<JutsuProps[]>([]);
   const [typedJutsuName, setTypedJutsuName] = useState(``);
-  const [filters, setFilters] = useState<FilterCheckProps[]>([]);
+  const [filters, setFilters] = useState<FilterOptionType[]>([]);
 
-  // const dispatch = useAppDispatch();
-  // const filtersData = useAppSelector((state) => state.filters);
+  const dispatch = useAppDispatch();
+  const filtersData = useAppSelector((state) => state.filters);
 
   const debouncedJutsuName = useDebounce(typedJutsuName, DELAY_DEBOUNCE);
 
@@ -38,19 +35,19 @@ const Home = () => {
   const debutsSelected = useMemo(() => {
     return filters
       .filter((debut) => debut.type === `Debuts`)
-      .map((type) => type.option);
+      .map((type) => type.name);
   }, [filters]);
 
   const classificationsSelected = useMemo(() => {
     return filters
       .filter((classification) => classification.type === `Classifications`)
-      .map((type) => type.option);
+      .map((type) => type.name);
   }, [filters]);
 
   const typesSelected = useMemo(() => {
     return filters
       .filter((type) => type.type === `Types`)
-      .map((type) => type.option);
+      .map((type) => type.name);
   }, [filters]);
 
   const {
@@ -75,20 +72,32 @@ const Home = () => {
   }
 
   const handleCheckFilters = useCallback(
-    (filterChecked: FilterCheckProps) => {
+    (filterChecked: FilterOptionType) => {
       const prevFilters = filters.filter(
-        (filterOption) => filterOption.option !== filterChecked.option,
+        (filterOption) => filterOption.name !== filterChecked.name,
       );
 
       const alreadySelected = filters.some(
-        (currentFilter) => currentFilter.option === filterChecked.option,
+        (currentFilter) => currentFilter.name === filterChecked.name,
       );
 
       if (alreadySelected) {
         setFilters(prevFilters);
+        dispatch(
+          addFilters({
+            ...filtersData,
+            options: [...filtersData.options, ...prevFilters],
+          }),
+        );
         return;
       }
       setFilters((prev) => [...prev, filterChecked]);
+      dispatch(
+        addFilters({
+          ...filtersData,
+          options: [...filtersData.options, filterChecked],
+        }),
+      );
     },
     [filters],
   );
@@ -103,6 +112,15 @@ const Home = () => {
     const jutsusFetched = !!jutsusByFilterList ? jutsusByFilterList : [];
     setJutsuList(jutsusFetched);
   }, [jutsusByFilter, filters]);
+
+  useEffect(() => {
+    dispatch(
+      addFilters({
+        ...filtersData,
+        name: debouncedJutsuName,
+      }),
+    );
+  }, [debouncedJutsuName]);
 
   return (
     <Base>

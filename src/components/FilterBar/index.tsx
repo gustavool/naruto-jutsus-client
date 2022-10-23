@@ -6,13 +6,13 @@ import {
 } from '@/utils/content/filtersData';
 import CloseIcon from '@/public/assets/icons/close.svg';
 import FilterOption from '../FilterOption';
-import { FilterCheckProps } from '@/templates/Home';
 import * as S from './styles';
+import { FilterOptionType } from '@/store/Filters.store';
 
 export type FilterBarProps = {
   isOpenFilter: boolean;
   onOpenFilter: () => void;
-  onCheck: (filterChecked: FilterCheckProps) => void;
+  onCheck: (filterChecked: FilterOptionType) => void;
 };
 
 const FilterBar = ({ isOpenFilter, onOpenFilter, onCheck }: FilterBarProps) => {
