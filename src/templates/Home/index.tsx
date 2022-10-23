@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import BoxJutsus from '@/components/BoxJutsus';
 import FilterBar from '@/components/FilterBar';
 import JutsuCard from '@/components/JutsuCard';
@@ -11,10 +11,7 @@ import { JutsuProps } from '@/hooks/ReactQuery/types';
 import { useDebounce } from '@/hooks/useDebounce';
 import useGetJutsusByFilter from '@/hooks/ReactQuery/useGetJutsusByFilter';
 import * as S from './styles';
-
-export type HomeTemplateProps = {
-  children: React.ReactNode;
-};
+import Link from 'next/link';
 
 export type FilterCheckProps = {
   type: string;
@@ -32,15 +29,26 @@ const Home = () => {
 
   const debouncedJutsuName = useDebounce(typedJutsuName, DELAY_DEBOUNCE);
 
-  const debutsSelected = filters
-    .filter((debut) => debut.type === `Debuts`)
-    .map((type) => type.option);
-  const classificationsSelected = filters
-    .filter((classification) => classification.type === `Classifications`)
-    .map((type) => type.option);
-  const typesSelected = filters
-    .filter((type) => type.type === `Types`)
-    .map((type) => type.option);
+  console.log(`filters`, filters);
+  console.log(`debouncedJutsuName`, debouncedJutsuName);
+
+  const debutsSelected = useMemo(() => {
+    return filters
+      .filter((debut) => debut.type === `Debuts`)
+      .map((type) => type.option);
+  }, [filters]);
+
+  const classificationsSelected = useMemo(() => {
+    return filters
+      .filter((classification) => classification.type === `Classifications`)
+      .map((type) => type.option);
+  }, [filters]);
+
+  const typesSelected = useMemo(() => {
+    return filters
+      .filter((type) => type.type === `Types`)
+      .map((type) => type.option);
+  }, [filters]);
 
   const {
     data: jutsusByFilter,
@@ -63,21 +71,24 @@ const Home = () => {
     setTypedJutsuName(nameTyped);
   }
 
-  function handleCheckFilters(filterChecked: FilterCheckProps) {
-    const prevFilters = filters.filter(
-      (filterOption) => filterOption.option !== filterChecked.option,
-    );
+  const handleCheckFilters = useCallback(
+    (filterChecked: FilterCheckProps) => {
+      const prevFilters = filters.filter(
+        (filterOption) => filterOption.option !== filterChecked.option,
+      );
 
-    const alreadySelected = filters.some(
-      (currentFilter) => currentFilter.option === filterChecked.option,
-    );
+      const alreadySelected = filters.some(
+        (currentFilter) => currentFilter.option === filterChecked.option,
+      );
 
-    if (alreadySelected) {
-      setFilters(prevFilters);
-      return;
-    }
-    setFilters((prev) => [...prev, filterChecked]);
-  }
+      if (alreadySelected) {
+        setFilters(prevFilters);
+        return;
+      }
+      setFilters((prev) => [...prev, filterChecked]);
+    },
+    [filters],
+  );
 
   useEffect(() => {
     const jutsusByFilterList = jutsusByFilter?.pages.flatMap((page) => {
@@ -106,11 +117,14 @@ const Home = () => {
           <BoxJutsus>
             {jutsuList.length > 0 &&
               jutsuList.map((jutsu) => (
-                <JutsuCard
-                  key={jutsu._id}
-                  img={jutsu.images}
-                  name={jutsu.names.englishName}
-                />
+                <Link key={jutsu._id} href={`jutsu/${jutsu._id}`} passHref>
+                  <a>
+                    <JutsuCard
+                      img={jutsu.images}
+                      name={jutsu.names.englishName}
+                    />
+                  </a>
+                </Link>
               ))}
           </BoxJutsus>
 

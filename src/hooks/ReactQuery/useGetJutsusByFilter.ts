@@ -1,5 +1,5 @@
 import api from '@/services/api';
-import { useInfiniteQuery } from 'react-query';
+import { useInfiniteQuery } from '@tanstack/react-query';
 import { AllJutsusProps } from './types';
 
 type FiltersProps = {
@@ -33,7 +33,11 @@ export default function useGetJutsusByFilter(
 
   return useInfiniteQuery(
     [
-      `jutsus-filtered-${nameFilter}-${debutsFilter}-${classificationsFilter}-${typesFilter}`,
+      `jutsus-filtered`,
+      nameFilter,
+      debutsFilter,
+      classificationsFilter,
+      typesFilter,
     ],
     ({ pageParam = 0 }) => getJutsusByFilter(pageParam),
     {
@@ -45,6 +49,9 @@ export default function useGetJutsusByFilter(
         }
         return undefined;
       },
+      keepPreviousData: true,
+      refetchOnWindowFocus: false,
+      staleTime: Infinity,
     },
   );
 }

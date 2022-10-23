@@ -7,4 +7,8 @@ export const Wrapper = styled.div`
   grid-gap: 8px;
   margin: 8px auto;
   justify-items: center;
+
+  a {
+    text-decoration: none;
+  }
 `;

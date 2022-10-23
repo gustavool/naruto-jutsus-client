@@ -1,5 +1,5 @@
 import api from '@/services/api';
-import { useInfiniteQuery } from 'react-query';
+import { useInfiniteQuery } from '@tanstack/react-query';
 import { AllJutsusProps } from './types';
 
 export default function useGetAllJutsus(limit: number, enable: boolean) {
