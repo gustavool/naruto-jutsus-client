@@ -27,6 +27,9 @@ const Home = () => {
   const [typedJutsuName, setTypedJutsuName] = useState(``);
   const [filters, setFilters] = useState<FilterCheckProps[]>([]);
 
+  // const dispatch = useAppDispatch();
+  // const filtersData = useAppSelector((state) => state.filters);
+
   const debouncedJutsuName = useDebounce(typedJutsuName, DELAY_DEBOUNCE);
 
   console.log(`filters`, filters);
