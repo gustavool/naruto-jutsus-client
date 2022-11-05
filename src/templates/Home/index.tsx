@@ -15,6 +15,7 @@ import Base from '../Base';
 import Spinner from '@/components/Spinner';
 import { AllJutsusProps, JutsuProps } from '@/hooks/ReactQuery/types';
 import * as S from './styles';
+import EmptyList from '@/components/EmptyList';
 
 export type HomeTemplateProps = {
   data: InfiniteData<AllJutsusProps> | undefined;
@@ -73,8 +74,9 @@ const Home = ({
                 </Link>
               ))}
           </BoxJutsus>
+          {!isLoading && jutsuList.length === 0 && <EmptyList />}
 
-          {(!!isLoading || !!isFetchingNextPage) && (
+          {(!!isLoading || !!isFetchingNextPage) && jutsuList.length === 0 && (
             <S.ShowMoreLoading>
               <Spinner />
             </S.ShowMoreLoading>

@@ -12,6 +12,7 @@ export default function useGetJutsusByFilter(
   name: string,
   limit: number,
   filters: FiltersProps,
+  enabled: boolean,
 ) {
   const nameFilter = !!name ? `&name=${name}` : ``;
   const debutsFilter =
@@ -53,6 +54,8 @@ export default function useGetJutsusByFilter(
         return undefined;
       },
       staleTime: 1000 * 60 * 10, //10 minutes
+      enabled: enabled,
+      retry: false,
     },
   );
 }

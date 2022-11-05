@@ -1,5 +1,5 @@
 import type { NextPage } from 'next';
-import { useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import useGetJutsusByFilter from '@/hooks/ReactQuery/useGetJutsusByFilter';
 import { useAppSelector } from '@/hooks/Redux';
 import Home from '@/templates/Home';
@@ -7,6 +7,7 @@ import Home from '@/templates/Home';
 const LIMIT = 20;
 const Index: NextPage = () => {
   const { name, options } = useAppSelector((state) => state.filters);
+  const [enableFetch, setEnableFetch] = useState(false);
 
   const debutsSelected = useMemo(() => {
     return options
@@ -26,12 +27,29 @@ const Index: NextPage = () => {
       .map((type) => type.name);
   }, [options]);
 
-  const { data, hasNextPage, isLoading, fetchNextPage, isFetchingNextPage } =
-    useGetJutsusByFilter(name, LIMIT, {
+  const {
+    data,
+    hasNextPage,
+    isLoading,
+    fetchNextPage,
+    isFetchingNextPage,
+    isError,
+  } = useGetJutsusByFilter(
+    name,
+    LIMIT,
+    {
       debuts: debutsSelected,
       classifications: classificationsSelected,
       types: typesSelected,
-    });
+    },
+    enableFetch,
+  );
+
+  useEffect(() => {
+    if (!enableFetch && !isError) {
+      setEnableFetch(true);
+    }
+  }, [name]);
 
   return (
     <Home
