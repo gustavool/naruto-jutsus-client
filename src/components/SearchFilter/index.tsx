@@ -13,9 +13,9 @@ export type SearchFilterProps = {
 const DELAY_DEBOUNCE = 500; //500ms
 
 const SearchFilter = ({ onOpenFilter }: SearchFilterProps) => {
-  const [typedJutsuName, setTypedJutsuName] = useState(``);
   const dispatch = useAppDispatch();
   const filtersData = useAppSelector((state) => state.filters);
+  const [typedJutsuName, setTypedJutsuName] = useState(filtersData.name);
   const debouncedJutsuName = useDebounce(typedJutsuName, DELAY_DEBOUNCE);
 
   function handleTypeJutsuName(e: React.ChangeEvent<HTMLInputElement>) {
@@ -34,7 +34,7 @@ const SearchFilter = ({ onOpenFilter }: SearchFilterProps) => {
 
   return (
     <S.Wrapper>
-      <SearchBar onType={handleTypeJutsuName} />
+      <SearchBar onType={handleTypeJutsuName} value={typedJutsuName} />
       <S.FilterWrapper onClick={onOpenFilter}>
         <FilterIcon />
       </S.FilterWrapper>

@@ -1,6 +1,5 @@
 import type { AppProps } from 'next/app';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { Provider } from 'react-redux';
 import { index as store } from '@/store';
 import { ThemeProvider } from 'styled-components';
@@ -17,7 +16,6 @@ function MyApp({ Component, pageProps }: AppProps) {
           <GlobalStyles />
           <Component {...pageProps} />
         </ThemeProvider>
-        <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>
     </Provider>
   );
