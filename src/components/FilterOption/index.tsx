@@ -1,3 +1,4 @@
+import { useAppSelector } from '@/hooks/Redux';
 import { FilterOptionType } from '@/store/Filters.store';
 import Checkbox from '../Checkbox';
 import * as S from './styles';
@@ -16,6 +17,10 @@ const FilterOption = ({ title, fields, onCheck }: FilterOptionProps) => {
     return null;
   }
 
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const filtersData = useAppSelector((state) => state.filters);
+  const filtersChecked = filtersData.options.map((filter) => filter.name);
+
   function handleCheckFilters(e: React.ChangeEvent<HTMLInputElement>) {
     onCheck({
       type: title,
@@ -28,6 +33,8 @@ const FilterOption = ({ title, fields, onCheck }: FilterOptionProps) => {
       <S.Title>{title}</S.Title>
       <S.Filter>
         {fields.map((field) => {
+          const isChecked = filtersChecked.includes(field.value);
+
           return (
             <Checkbox
               key={field.value}
@@ -35,6 +42,7 @@ const FilterOption = ({ title, fields, onCheck }: FilterOptionProps) => {
               labelFor={field.label}
               value={field.value}
               onCheck={handleCheckFilters}
+              isChecked={isChecked}
             />
           );
         })}

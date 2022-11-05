@@ -21,7 +21,6 @@ export const Data = styled.div`
 
   div {
     display: flex;
-
     strong {
       margin-right: 8px;
     }

@@ -5,11 +5,18 @@ export type CheckboxProps = {
   label: string;
   labelFor: string;
   value?: string;
+  isChecked: boolean;
   onCheck: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
-const Checkbox = ({ label, labelFor, value, onCheck }: CheckboxProps) => {
-  const [checked, setChecked] = useState(false);
+const Checkbox = ({
+  label,
+  labelFor,
+  value,
+  onCheck,
+  isChecked = false,
+}: CheckboxProps) => {
+  const [checked, setChecked] = useState(isChecked);
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setChecked((prev) => !prev);
