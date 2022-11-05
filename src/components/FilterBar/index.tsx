@@ -52,7 +52,7 @@ const FilterBar = ({ isOpenFilter, onOpenFilter }: FilterBarProps) => {
         }),
       );
     },
-    [filtersData.options],
+    [filtersData],
   );
 
   return (
@@ -65,6 +65,7 @@ const FilterBar = ({ isOpenFilter, onOpenFilter }: FilterBarProps) => {
         {!!isOpenFilter && (
           <CloseIcon onClick={onOpenFilter} aria-label="close filter options" />
         )}
+
         <FilterOption
           title={filterDebuts.title}
           fields={filterDebuts.fields}
@@ -80,6 +81,7 @@ const FilterBar = ({ isOpenFilter, onOpenFilter }: FilterBarProps) => {
           fields={filterTypes.fields}
           onCheck={handleCheckFilters}
         />
+
         {!!isOpenFilter && <S.Button onClick={onOpenFilter}>Filter</S.Button>}
       </S.Content>
     </S.Wrapper>

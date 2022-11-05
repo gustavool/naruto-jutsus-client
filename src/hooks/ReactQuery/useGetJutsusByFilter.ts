@@ -43,15 +43,16 @@ export default function useGetJutsusByFilter(
     {
       getNextPageParam: (lastPage) => {
         const lastPageAvailable =
-          lastPage.total <= 20 ? 0 : Math.floor(lastPage.total / limit);
+          lastPage.total % limit === 0
+            ? lastPage.total / limit - 1
+            : Math.floor(lastPage.total / limit);
+
         if (lastPage.page < lastPageAvailable) {
           return lastPage.page + 1;
         }
         return undefined;
       },
-      keepPreviousData: true,
-      refetchOnWindowFocus: false,
-      staleTime: Infinity,
+      staleTime: 1000 * 60 * 10, //10 minutes
     },
   );
 }

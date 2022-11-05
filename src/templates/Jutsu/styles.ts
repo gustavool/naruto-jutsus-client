@@ -1,50 +1,72 @@
+import { breakpoints } from '@/styles/breakpoints';
 import styled from 'styled-components';
+import * as AccordionStyles from '../../components/AccordionData/styles';
 
 export const Container = styled.div`
   display: flex;
   width: 100%;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 28px;
 `;
 
 export const Content = styled.div`
   width: 100%;
-`;
-
-export const ShowMoreButton = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  width: fit-content;
-  margin: 16px auto;
 
-  p {
-    font-weight: bold;
-  }
-
-  svg {
-    margin-top: -8px;
-    width: 32px;
-    height: 32px;
-
-    animation: downarrow 0.6s infinite alternate ease-in-out;
-  }
-
-  @keyframes downarrow {
-    0% {
-      transform: translateY(0);
-      opacity: 0.6;
-    }
-    100% {
-      transform: translateY(0.4em);
-      opacity: 1;
-    }
+  ${AccordionStyles.Wrapper} {
+    margin-top: 8px;
   }
 `;
 
-export const ShowMoreLoading = styled.div`
+export const TitleH1 = styled.h1`
+  width: 100%;
+  font-weight: bold;
+  font-size: 24px;
+  padding: 8px 0;
+  background-color: ${({ theme }) => theme.colors.yellow700};
+  border-radius: 4px;
+  text-align: center;
+  text-transform: uppercase;
+`;
+
+export const SideData = styled.div`
   display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 24px auto 16px auto;
+  margin-top: 16px;
+  gap: 8px;
+
+  @media (max-width: ${breakpoints.md}) {
+    flex-direction: column;
+    align-items: center;
+  }
+`;
+
+export const Data = styled.div`
+  border: 2px solid ${({ theme }) => theme.colors.yellow700};
+  border-radius: 8px;
+  width: 100%;
+
+  h2 {
+    font-weight: bold;
+    font-size: 24px;
+    padding: 8px 0;
+    background-color: ${({ theme }) => theme.colors.yellow700};
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    text-align: center;
+  }
+`;
+
+export const DataContent = styled.div`
+  padding: 16px 8px;
+`;
+
+export const BoxImage = styled.div`
+  width: 100%;
+  min-width: 320px;
+  max-width: 320px;
+  img {
+    border-radius: 4px;
+  }
 `;
