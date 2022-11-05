@@ -1,3 +1,4 @@
+import { JutsuProps } from '@/hooks/ReactQuery/types';
 import useGetJutsuById from '@/hooks/ReactQuery/useGetJutsuById';
 import Jutsu from '@/templates/Jutsu';
 import { useRouter } from 'next/router';
