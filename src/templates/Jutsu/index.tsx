@@ -6,6 +6,7 @@ import Base from '../Base';
 import EmptyImage from '@/public/assets/empty-image.jpeg';
 import AccordionData from '@/components/AccordionData';
 import Spinner from '@/components/Spinner';
+import ArrowIcon from '@/public/assets/icons/arrow.svg';
 import {
   dataDataMapper,
   dataDebutsMapper,
@@ -13,6 +14,7 @@ import {
   dataOthersMapper,
 } from '@/utils/mappers';
 import * as S from './styles';
+import Button from '@/components/Button';
 
 type JutsuTemplateProps = {
   data: JutsuProps | undefined;
@@ -50,8 +52,13 @@ const Jutsu = ({ data, isLoading }: JutsuTemplateProps) => {
 
   return (
     <Base>
-      <button onClick={() => push(`/`)}>Voltar</button>
       <S.Container>
+        <Button onClick={() => push(`/`)}>
+          <S.BackButton>
+            <ArrowIcon />
+            Back
+          </S.BackButton>
+        </Button>
         {!!isLoading ? (
           <Spinner />
         ) : (

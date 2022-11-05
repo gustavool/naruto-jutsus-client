@@ -3,11 +3,32 @@ import styled from 'styled-components';
 import * as AccordionStyles from '../../components/AccordionData/styles';
 
 export const Container = styled.div`
-  display: flex;
   width: 100%;
+  display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   padding-bottom: 28px;
+
+  button {
+    align-self: flex-start;
+  }
+`;
+
+export const BackButton = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  color: ${({ theme }) => theme.colors.gray700};
+  font-weight: bold;
+  text-transform: uppercase;
+
+  svg {
+    transform: rotate(90deg);
+    fill: ${({ theme }) => theme.colors.gray700};
+    stroke: 2px ${({ theme }) => theme.colors.gray700};
+    stroke-width: 24px;
+  }
 `;
 
 export const Content = styled.div`
@@ -29,17 +50,6 @@ export const TitleH1 = styled.h1`
   border-radius: 4px;
   text-align: center;
   text-transform: uppercase;
-`;
-
-export const SideData = styled.div`
-  display: flex;
-  margin-top: 16px;
-  gap: 8px;
-
-  @media (max-width: ${breakpoints.md}) {
-    flex-direction: column;
-    align-items: center;
-  }
 `;
 
 export const Data = styled.div`
@@ -65,8 +75,22 @@ export const DataContent = styled.div`
 export const BoxImage = styled.div`
   width: 100%;
   min-width: 320px;
-  max-width: 320px;
   img {
     border-radius: 4px;
+  }
+`;
+
+export const SideData = styled.div`
+  display: flex;
+  margin-top: 8px;
+  gap: 8px;
+
+  ${BoxImage}, ${Data} {
+    flex: 50%;
+  }
+
+  @media (max-width: ${breakpoints.md}) {
+    flex-direction: column;
+    align-items: center;
   }
 `;

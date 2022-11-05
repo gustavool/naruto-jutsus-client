@@ -17,7 +17,7 @@ export const Wrapper = styled.button<WrapperBackToTopProps>`
   cursor: pointer;
   padding: 8px;
   border-radius: 4px;
-  background-color: ${({ theme }) => theme.colors.black};
+  background-color: ${({ theme }) => theme.colors.gray700};
 
   :hover {
     svg {

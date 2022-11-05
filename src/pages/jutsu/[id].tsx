@@ -1,7 +1,6 @@
-import { JutsuProps } from '@/hooks/ReactQuery/types';
+import { useRouter } from 'next/router';
 import useGetJutsuById from '@/hooks/ReactQuery/useGetJutsuById';
 import Jutsu from '@/templates/Jutsu';
-import { useRouter } from 'next/router';
 
 export default function Index() {
   const { query } = useRouter();

@@ -5,7 +5,7 @@ export const Wrapper = styled.footer`
   width: 100%;
   max-width: ${breakpoints.lg};
   height: 56px;
-  background-color: ${({ theme }) => theme.colors.black};
+  background-color: ${({ theme }) => theme.colors.gray700};
   display: flex;
   align-items: center;
   justify-content: center;
