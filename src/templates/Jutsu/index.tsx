@@ -13,8 +13,8 @@ import {
   dataNamesMapper,
   dataOthersMapper,
 } from '@/utils/mappers';
-import * as S from './styles';
 import Button from '@/components/Button';
+import * as S from './styles';
 
 type JutsuTemplateProps = {
   data: JutsuProps | undefined;

@@ -14,8 +14,8 @@ import ArrowIcon from '@/public/assets/icons/arrow.svg';
 import Base from '../Base';
 import Spinner from '@/components/Spinner';
 import { AllJutsusProps, JutsuProps } from '@/hooks/ReactQuery/types';
-import * as S from './styles';
 import EmptyList from '@/components/EmptyList';
+import * as S from './styles';
 
 export type HomeTemplateProps = {
   data: InfiniteData<AllJutsusProps> | undefined;
