@@ -9,6 +9,9 @@ const nextConfig = {
 
     return config;
   },
+  env: {
+    BASE_URL: process.env.BASE_URL,
+  },
   images: {
     domains: ['static.wikia.nocookie.net'],
     formats: ['image/avif', 'image/webp'],
