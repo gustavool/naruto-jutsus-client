@@ -40,7 +40,6 @@ const Home = ({
   const handleOpenFilter = useCallback(() => {
     setIsOpenFilter((prev) => !prev);
   }, []);
-  console.log('process.env.baseUrl', process.env.BASE_URL);
   useEffect(() => {
     const jutsusByFilterList = data?.pages.flatMap((page) => {
       return page.jutsus.map((jutsu) => {
