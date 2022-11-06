@@ -1,4 +1,3 @@
-import Image from 'next/image';
 import { useRouter } from 'next/router';
 import BackToTop from '@/components/BackToTop';
 import { JutsuProps } from '@/hooks/ReactQuery/types';
@@ -15,6 +14,7 @@ import {
 } from '@/utils/mappers';
 import Button from '@/components/Button';
 import * as S from './styles';
+import JutsuImage from '@/components/JutsuImage';
 
 type JutsuTemplateProps = {
   data: JutsuProps | undefined;
@@ -24,13 +24,15 @@ type JutsuTemplateProps = {
 const Jutsu = ({ data, isLoading }: JutsuTemplateProps) => {
   const { push } = useRouter();
 
-  const imageJutsuSrc = !!data?.images[0]
-    ? data?.images[0].src
-    : EmptyImage.src;
-
-  const imageJutsuAlt = !!data?.images[0]
-    ? data?.images[0].alt
-    : data?.names.englishName;
+  const imagesList =
+    !!data?.images && data?.images.length > 0
+      ? data.images
+      : [
+          {
+            src: EmptyImage.src,
+            alt: data?.names.englishName || `Empty jutsu image`,
+          },
+        ];
 
   const dataNames = !!data?.names ? dataNamesMapper({ names: data.names }) : [];
   const dataDebuts = !!data?.debut
@@ -66,15 +68,8 @@ const Jutsu = ({ data, isLoading }: JutsuTemplateProps) => {
             <S.Content>
               <S.TitleH1>{data?.names.englishName}</S.TitleH1>
               <S.SideData>
-                <S.BoxImage>
-                  <Image
-                    src={imageJutsuSrc}
-                    alt={imageJutsuAlt}
-                    width="430px"
-                    height="313px"
-                    layout="responsive"
-                  />
-                </S.BoxImage>
+                <JutsuImage images={imagesList} />
+
                 <S.Data>
                   <h2>Description</h2>
                   <S.DataContent>

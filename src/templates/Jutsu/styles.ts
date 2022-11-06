@@ -1,6 +1,7 @@
 import { breakpoints } from '@/styles/breakpoints';
 import styled from 'styled-components';
 import * as AccordionStyles from '../../components/AccordionData/styles';
+import * as JutsuImageStyles from '../../components/JutsuImage/styles';
 
 export const Container = styled.div`
   width: 100%;
@@ -72,20 +73,12 @@ export const DataContent = styled.div`
   padding: 16px 8px;
 `;
 
-export const BoxImage = styled.div`
-  width: 100%;
-  min-width: 320px;
-  img {
-    border-radius: 4px;
-  }
-`;
-
 export const SideData = styled.div`
   display: flex;
   margin-top: 8px;
   gap: 8px;
 
-  ${BoxImage}, ${Data} {
+  ${JutsuImageStyles.Wrapper}, ${Data} {
     flex: 50%;
   }
 
