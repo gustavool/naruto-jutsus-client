@@ -14,6 +14,8 @@ export const Title = styled.div<{ showData: boolean }>`
   background-color: ${({ theme }) => theme.colors.yellow700};
   border-top-left-radius: 4px;
   border-top-right-radius: 4px;
+  border-bottom-left-radius: ${({ showData }) => (showData ? `` : `4px`)};
+  border-bottom-right-radius: ${({ showData }) => (showData ? `` : `4px`)};
   cursor: pointer;
   margin: -2px;
   width: calc(100% + 4px);
