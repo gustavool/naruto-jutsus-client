@@ -15,6 +15,8 @@ export const Title = styled.div<{ showData: boolean }>`
   border-top-left-radius: 4px;
   border-top-right-radius: 4px;
   cursor: pointer;
+  margin: -2px;
+  width: calc(100% + 4px);
 
   svg {
     transition: 0.2s ease-in-out;

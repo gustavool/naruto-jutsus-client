@@ -57,14 +57,16 @@ export const Data = styled.div`
   border: 2px solid ${({ theme }) => theme.colors.yellow700};
   border-radius: 8px;
   width: 100%;
-
   h2 {
+    margin: -2px;
+    width: calc(100% + 4px);
     font-weight: bold;
     font-size: 24px;
     padding: 8px 0;
     background-color: ${({ theme }) => theme.colors.yellow700};
     border-top-left-radius: 4px;
     border-top-right-radius: 4px;
+    border: 2px solid ${({ theme }) => theme.colors.yellow700};
     text-align: center;
   }
 `;
