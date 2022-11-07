@@ -62,20 +62,32 @@ export function dataOthersMapper({
   JutsuProps,
   'relatedJutsu' | 'parentJutsu' | 'derivedJutsu' | 'users'
 >) {
-  if (!!relatedJutsu || !!parentJutsu || !!derivedJutsu || !!users) {
-    return [
-      {
-        name: `Related jutsus: `,
-        description: relatedJutsu.join(`, `),
-      },
-      {
-        name: `Parent jutsus: `,
-        description: parentJutsu.join(`, `),
-      },
-      { name: `Derived jutsus: `, description: derivedJutsu.join(`, `) },
-      { name: `Users: `, description: users.join(`, `) },
-    ];
+  const othersData = [];
+
+  if (relatedJutsu.length > 0) {
+    othersData.push({
+      name: `Related jutsus: `,
+      description: relatedJutsu.join(`, `),
+    });
   }
 
-  return [];
+  if (parentJutsu.length > 0) {
+    othersData.push({
+      name: `Parent jutsus: `,
+      description: parentJutsu.join(`, `),
+    });
+  }
+
+  if (derivedJutsu.length > 0) {
+    othersData.push({
+      name: `Derived jutsus: `,
+      description: derivedJutsu.join(`, `),
+    });
+  }
+
+  if (users.length > 0) {
+    othersData.push({ name: `Users: `, description: users.join(`, `) });
+  }
+
+  return othersData;
 }

@@ -78,10 +78,18 @@ const Jutsu = ({ data, isLoading }: JutsuTemplateProps) => {
                 </S.Data>
               </S.SideData>
 
-              <AccordionData title="Names" data={dataNames} />
-              <AccordionData title="Debuts" data={dataDebuts} />
-              <AccordionData title="Data" data={dataData} />
-              <AccordionData title="Others" data={dataOthers} />
+              {dataNames.length > 0 && (
+                <AccordionData title="Names" data={dataNames} />
+              )}
+              {dataDebuts.length > 0 && (
+                <AccordionData title="Debuts" data={dataDebuts} />
+              )}
+              {dataData.length > 0 && (
+                <AccordionData title="Data" data={dataData} />
+              )}
+              {dataOthers.length > 0 && (
+                <AccordionData title="Others" data={dataOthers} />
+              )}
             </S.Content>
             <BackToTop />
           </>
