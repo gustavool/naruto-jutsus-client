@@ -5,6 +5,7 @@ import { index as store } from '@/store';
 import { ThemeProvider } from 'styled-components';
 import GlobalStyles from '@/styles/globalStyles';
 import { defaultTheme } from '@/styles/theme';
+import Head from 'next/head';
 
 function MyApp({ Component, pageProps }: AppProps) {
   const queryClient = new QueryClient();
@@ -14,6 +15,14 @@ function MyApp({ Component, pageProps }: AppProps) {
       <QueryClientProvider client={queryClient}>
         <ThemeProvider theme={defaultTheme}>
           <GlobalStyles />
+          <Head>
+            <title>Naruto Jutsus Data</title>
+            <link
+              rel="icon"
+              type="image/x-icon"
+              href="/assets/icons/sharingan.png"
+            />
+          </Head>
           <Component {...pageProps} />
         </ThemeProvider>
       </QueryClientProvider>
