@@ -75,7 +75,7 @@ const Home = ({
           </BoxJutsus>
           {!isLoading && jutsuList.length === 0 && <EmptyList />}
 
-          {(!!isLoading || !!isFetchingNextPage) && jutsuList.length === 0 && (
+          {(!!isLoading || !!isFetchingNextPage) && (
             <S.ShowMoreLoading>
               <Spinner />
             </S.ShowMoreLoading>
